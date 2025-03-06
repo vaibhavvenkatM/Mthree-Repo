@@ -1,0 +1,124 @@
+# Git Bash
+
+Git Bash is a command-line interface for Git on Windows. It allows users to run Git commands efficiently.
+
+## Basic Commands
+
+- **ls** (List directory contents)
+  
+  `ls`
+
+- **mkdir** (Create a new directory)
+  
+  `mkdir new_project`
+
+- **cd** (Change directory)
+  
+  `cd new_project`
+
+## Setup Git
+
+Configure Git with user details:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+Initialize a Git Repository
+git init
+
+
+Create a Git Repository on GitHub
+Go to GitHub and create a new repository.
+Copy the repository URL.
+Run the following command:
+
+git remote add origin <repository_url>
+
+
+Add & Commit Files
+Add files to staging:
+
+git add .
+
+
+Commit changes:
+
+git commit -m "Initial commit"
+
+
+Push Changes
+git push origin main
+
+Create a Branch
+git branch feature-branch
+
+
+Switch to a Branch
+git checkout feature-branch
+
+
+Merge Branches
+Switch to the main branch and merge:
+git checkout main
+git merge feature-branch
+
+Pull Request (PR)
+A Pull Request is a request to merge code into another branch. Steps to create a PR:
+
+Push your branch to GitHub.
+Open GitHub, go to the repository.
+Click "Compare & Pull Request."
+Add details and create the PR.
+
+
+# Git Basics and Stash Command
+
+## Introduction to Git and Branching
+
+Git is a powerful version control system that allows multiple developers to collaborate on the same project efficiently. Instead of working directly on the main branch, most companies prefer using feature branches. This approach ensures that any modifications are tested and reviewed before being merged into the main branch, preventing unintended disruptions or crashes in the application.
+
+When a developer works on a feature, there may be scenarios where they need to switch to another task before completing their current work. However, committing incomplete changes is not ideal. To handle this situation, Git provides the `git stash` command, which temporarily stores changes and allows developers to switch contexts without losing progress.
+
+## Understanding Git Stash
+
+Git stash is a useful command that enables developers to save their ongoing work without committing it. This feature is beneficial when switching branches or working on urgent tasks while keeping the uncommitted changes safe. Developers can retrieve the stashed changes later and continue working seamlessly.
+
+### Key Git Stash Commands
+
+Here are some essential Git stash commands and their usage:
+
+Saving Staged Changes with a Message: `git stash save WIP`
+
+Adding a File to the Staging Area: Prepares the file for a commit by adding it to the staging area. Command - `git add module.py`
+
+Listing Files in the Directory: Displays all files in the current directory and helps check recorded stashes. Command - `ls -lrt`
+
+Viewing Saved Stashes: Shows all saved stashes with their respective identifiers. Command - `git stash list`
+
+Inspecting a Specific Stash: Displays details of a particular stash without applying it. Command - `git stash show stash@{0}`
+
+Applying and Removing the Latest Stash: Retrieves and applies the most recent stash while removing it from the list. Command - `git stash pop`
+
+## Working with Branches and Merging
+
+When working on different features or bug fixes, developers use branches to isolate changes before merging them into the main branch. Below are some essential Git commands to manage branches and merging:
+
+Creating and Switching to a New Branch: Creates a new branch called `bugFix` and switches to it. Command - `git checkout -b bugFix`
+
+Committing Changes: Saves changes to the current branch. Command - `git commit`
+
+Switching Back to the Main Branch: Moves back to the main branch. Command - `git checkout main`
+
+Committing Changes on the Main Branch: Saves changes made in the main branch. Command - `git commit`
+
+Merging a Branch into Main: Integrates the changes from `bugFix` into the main branch. Command - `git merge bugFix`
+
+Creating a New Branch and Switching to It: Command - `git checkout -b bugFix`
+
+## Learning GitHub
+
+In the afternoon session, the focus was on learning GitHub, a cloud-based Git repository hosting service. GitHub enhances collaboration by providing features like pull requests, code reviews, and issue tracking.
+
+A great resource to practice and visualize Git commands is **[Learn Git Branching](https://learngitbranching.js.org/)**, which provides interactive tutorials on Git concepts.
+
