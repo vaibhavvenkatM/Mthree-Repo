@@ -177,7 +177,6 @@ A Primary Key uniquely identifies each record in a table. A Foreign Key establis
 
 **Example SQL Queries:**
 
-```sql
 CREATE TABLE courses (
     course_id INT PRIMARY KEY,
     course_name VARCHAR(100),
@@ -212,29 +211,28 @@ INSERT INTO enrollments VALUES (1, 1, 101, '2024-02-12');
 
 
 
-Establishing Relationship Between Tables
-Relationships are created using Foreign Keys.
+Establishing Relationship Between Tables -  Relationships are created using Foreign Keys.
+
 One-to-Many: A student can enroll in multiple courses, but a course can have many students.
+
 Many-to-Many: Many students can enroll in many courses.
+
 Components of an ER Diagram:
 Entities (Tables like students, courses)
 Attributes (Columns like first_name, course_name)
 Relationships (Foreign Keys in enrollments table)
 Primary Key & Foreign Key (Unique identification and table linking)
-Delimiter
-A Delimiter is used to define the start and end of a stored procedure.
+
+Delimiter - A Delimiter is used to define the start and end of a stored procedure.
 
 Syntax:
-
-
 DELIMITER //
-...
+
 END //
 DELIMITER ;
 
 
-Stored Procedure
-A Stored Procedure is a set of SQL statements that can be executed as a function.
+Stored Procedure - A Stored Procedure is a set of SQL statements that can be executed as a function.
 
 Syntax:
 DELIMITER //
@@ -247,6 +245,8 @@ BEGIN
     INSERT INTO students (first_name, last_name, email) VALUES (p_first_name, p_last_name, p_email);
     SELECT LAST_INSERT_ID() AS student_id;
 END //
+
+
 DELIMITER ;
 
 Stored Procedure with IF-ELSE Logic:
@@ -270,8 +270,7 @@ END //
 DELIMITER ;
 
 
-Drop a Stored Procedure:
-DROP PROCEDURE IF EXISTS sp_update_student_email;
+Drop a Stored Procedure: - DROP PROCEDURE IF EXISTS sp_update_student_email;
 
 
 Indexes
@@ -281,8 +280,7 @@ CREATE INDEX idx_student_email ON students(email);
 CREATE UNIQUE INDEX idx_unique_course ON courses(course_name);
 
 
-Circular Dependency Issue in Foreign Key
-A Circular Dependency occurs when two tables reference each other as Foreign Keys, making it impossible to insert data without breaking constraints.
+Circular Dependency Issue in Foreign Key - A Circular Dependency occurs when two tables reference each other as Foreign Keys, making it impossible to insert data without breaking constraints.
 
 Solution: Use NULLABLE Foreign Keys or insert data in a specific order.
 
@@ -292,9 +290,7 @@ When a referenced row is deleted, the related Foreign Key can be set to NULL ins
 FOREIGN KEY (student_id) REFERENCES studenttttt(student_id) ON DELETE SET NULL;
 
 
-ER Diagram
-
-An Entity-Relationship (ER) Diagram visually represents database tables and their relationships.
+ER Diagram - An Entity-Relationship (ER) Diagram visually represents database tables and their relationships.
 
 Entities: Tables (e.g., students, courses)
 
@@ -308,23 +304,16 @@ Normalization organizes data efficiently, reducing redundancy and improving inte
 3NF (Third Normal Form): No transitive dependency (non-key columns depend only on the primary key).
 Example Queries
 
-Insert Data:
-INSERT INTO studenttttt VALUES (1, 'John', 'Doe', 'john.doe@email.com');
+Insert Data: - INSERT INTO studenttttt VALUES (1, 'John', 'Doe', 'john.doe@email.com');
 
 Select Data:
-
-
 SELECT * FROM studenttttt;
 
-Calling a Stored Procedure:
-CALL sp_add_employee('Alice', 'Johnson', 'alice.johnson@example.com');
+Calling a Stored Procedure: - CALL sp_add_employee('Alice', 'Johnson', 'alice.johnson@example.com');
 
-Update Data:
+Update Data: - UPDATE employees SET performance_score = 4.5 WHERE emp_id = 1;
 
-UPDATE employees SET performance_score = 4.5 WHERE emp_id = 1;
-
-Delete Data:
-DELETE FROM enrollments WHERE enrollment_id = 2;
+Delete Data: - DELETE FROM enrollments WHERE enrollment_id = 2;
 
 
 Find Students Enrolled in a Course:
@@ -359,19 +348,17 @@ The `CONCAT` function in SQL is used to combine two or more strings into a singl
 
 **Syntax:**
 
-```sql
+
 SELECT CONCAT(string1, string2, ...);
-```
+
 
 Example:
 
-```sql
 SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;
-```
 
 This will combine the `first_name` and `last_name` columns to create a full name.
 
----
+
 
 ## INDEX
 
@@ -379,19 +366,19 @@ Indexes in SQL are used to enhance the performance of queries by reducing the ti
 
 **Syntax:**
 
-```sql
+
 CREATE INDEX index_name ON table_name (column_name);
-```
+
 
 Example:
 
-```sql
+
 CREATE INDEX idx_employee_name ON employees (last_name);
-```
+
 
 This creates an index on the `last_name` column of the `employees` table to speed up search queries.
 
----
+
 
 ## TRIGGERS
 
@@ -399,18 +386,15 @@ A trigger is a set of SQL statements that are automatically executed when a spec
 
 **Syntax:**
 
-```sql
 CREATE TRIGGER trigger_name
 AFTER INSERT ON table_name
 FOR EACH ROW
 BEGIN
    -- SQL Statements
 END;
-```
 
 Example:
 
-```sql
 CREATE TRIGGER after_employee_insert
 AFTER INSERT ON employees
 FOR EACH ROW
@@ -418,11 +402,10 @@ BEGIN
    INSERT INTO audit_log (action, employee_id, timestamp)
    VALUES ('INSERT', NEW.employee_id, NOW());
 END;
-```
 
 This trigger will insert a log entry into the `audit_log` table whenever a new employee is inserted into the `employees` table.
 
----
+
 
 ## COALESCE
 
@@ -430,16 +413,12 @@ The `COALESCE` function returns the first non-null value from a list of values.
 
 **Syntax:**
 
-```sql
 SELECT COALESCE(value1, value2, ...);
-```
+
 
 Example:
 
-```sql
 SELECT COALESCE(phone_number, 'No phone number available') AS contact_number FROM customers;
-```
+
 
 This will return the `phone_number` if it's not null, or "No phone number available" if `phone_number` is null.
-
----
