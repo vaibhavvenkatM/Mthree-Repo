@@ -1,88 +1,92 @@
-# 📌 Git Cheat Sheet
+# Mthree Training Guide
 
-## 🔹 Basic Commands
+Welcome to the **Mthree Training** repository! This repository serves as a structured learning hub, categorized by weekly modules, covering essential topics such as **SQL, Linux, Python, WSL, Git, Shell Scripting, Jenkins, Docker, Kubernetes, and more**.
+
+## 📁 Repository Overview
+This repository is systematically divided into weekly training sessions:
+
+### **Week 1**
+- Understanding **Git** and version control fundamentals
+- Essential **SQL Queries** and database operations
+- **GitHub** workflow essentials
+
+### **Week 2**
+- Command-line proficiency with **Linux**
+- Basics of **Shell Scripting**
+- Setting up a **Python Project** efficiently
+- Introduction to **Windows Subsystem for Linux (WSL)**
+
+### **Week 3**
+- **Linux Administration** techniques
+- Implementing **Jenkins CI/CD** pipelines
+- **Docker** for container management
+- **Kubernetes Deployment** concepts
+
+### **Week 4**
+- In-depth **Kubernetes** Applications
+- **Python String Operations & Methods**
+- **k8s-master-app** Setup
+
+## 🚀 Getting Started
+Clone the repository to your local system:
 ```sh
-git init                           # Initialize a new Git repository  
-git clone <repo_url>               # Clone an existing repository  
-git status                         # Show the status of changes  
-git add <file>                     # Stage a file for commit  
-git commit -m "message"            # Commit staged files  
+git clone https://github.com/vaibhavvenkatM/documentation.git
+cd documentation
 ```
 
-## 🔹 Branching & Merging
-```sh
-git branch <branch_name>           # Create a new branch  
-git checkout <branch_name>         # Switch to a branch  
-git merge <branch_name>            # Merge a branch into the current branch  
-```
+Explore the relevant week's folder and open the **.md** files for reference.
 
-## 🔹 Working with Remote Repositories
-```sh
-git remote add origin <url>        # Link local repo to a remote repo  
-git push origin <branch>           # Push changes to the remote repo  
-git pull origin <branch>           # Fetch and merge remote changes  
-git fetch                          # Fetch changes without merging  
-```
+## 📌 Topics Covered
+### **SQL**
+- Primary & Foreign Keys
+- Stored Procedures & Indexes
+- SQL Queries and Normalization
 
-## 🔹 Undoing Changes
-```sh
-git reset --soft HEAD~1            # Undo last commit (keep changes staged)  
-git reset --hard HEAD~1            # Undo last commit (discard changes)  
-git revert <commit_id>             # Create a new commit that undoes changes  
-```
+### **Linux**
+- File & Directory Management
+- Process Management
+- User & Group Administration
 
-## 🔹 Stashing Changes
-```sh
-git stash                          # Save uncommitted changes temporarily  
-git stash list                     # View stashed changes  
-git stash apply                    # Reapply last stashed changes  
-git stash drop                     # Delete last stash  
-```
+### **Python**
+- Basic Syntax & Data Types
+- Functions & Loops
+- File Handling & OOP
 
-## 💡 **Quick Tips**
-✔️ Always pull before pushing to avoid conflicts.  
-✔️ Use meaningful commit messages.  
-✔️ Avoid committing sensitive data like credentials.  
-✔️ Use `git log --oneline --graph` to visualize commit history.  
+### **WSL (Windows Subsystem for Linux)**
+- Installing & Using WSL
+- Running Linux Commands on Windows
+- File System Interactions
 
----
+### **Git**
+- Git Basics & Commands
+- Branching & Merging
+- Handling Merge Conflicts
 
-# Git: Introduction and Essential Commands
+### **Shell Scripting**
+- Writing Bash Scripts
+- Loops & Conditional Statements
+- Automating Tasks
 
-## What is Git and Why Use It?
-Git is a **distributed version control system** designed to track changes in source code during software development. It allows multiple developers to **collaborate, revert to previous versions,** and **manage different branches** of a project efficiently.
+### **Jenkins**
+- Installing & Configuring Jenkins
+- Creating CI/CD Pipelines
+- Integrating with Docker & Kubernetes
 
----
+### **Docker**
+- Docker Images & Containers
+- Writing Dockerfiles
+- Using Docker Compose
 
-## Handling Merge Conflicts
+### **Kubernetes**
+- Deploying Applications on Kubernetes
+- Pods, Services & Deployments
+- Managing Kubernetes Clusters
 
-### Example Merge Conflict:
-If two developers modify `file.txt` in different branches and merge:
-```sh
-git merge new-feature
-```
-Possible output:
-```
-CONFLICT (content): Merge conflict in file.txt
-```
+## 📖 Additional Resources
+For detailed learning materials, check out the respective **.md** files in each topic folder.
 
-### Resolving Merge Conflicts:
-1. Open `file.txt` and manually resolve conflicts:
-```md
-<<<<<<< HEAD  
-Existing content  
-=======  
-New content from new-feature  
->>>>>>> new-feature  
-```
-2. Edit the file to keep the correct version and remove conflict markers.
-3. Stage and commit the resolved file:
-   ```sh
-   git add file.txt
-   git commit -m "Resolved merge conflict"
-   ```
+## 📷 Image Reference
+![Training Image](Images/1.jpg)
 
----
-
-These essential Git commands will help you effectively manage your source code and collaborate with your team.
+Happy Learning! 🚀
 
