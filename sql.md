@@ -157,7 +157,7 @@ Joins are used to combine rows from two or more tables based on a related column
 - **Any**: Used in comparisons to check if a value satisfies at least one condition in a subquery.
 
 ### Bitwise Operators
-Bitwise operators like `&`, `|`, `^`, `~`, `<<`, and `>> perform bit-level operations on integer values.
+Bitwise operators like `&`, `|`, `^`, `~`, `<<`, and `>>` perform bit-level operations on integer values.
 
 ### Other Functions
 - **LAT Function**: Likely referring to `LAT()` in GIS databases, used to extract latitude from geographical coordinates.
