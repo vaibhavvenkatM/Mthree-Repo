@@ -88,7 +88,8 @@ For detailed learning materials, check out the respective **.md** files in each 
 ## 📷 Image Reference
 <!-- ![Training Image](Images/1.jpg) -->
 
-![Training Image](../Mthree_notes/Images/1.png)
+![Training Image](../Images/1.png)
+
 
 Happy Learning! 🚀
 
