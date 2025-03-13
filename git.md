@@ -1,56 +1,56 @@
+# 📌 Git Cheat Sheet
+
+## 🔹 Basic Commands
+```sh
+git init                           # Initialize a new Git repository  
+git clone <repo_url>               # Clone an existing repository  
+git status                         # Show the status of changes  
+git add <file>                     # Stage a file for commit  
+git commit -m "message"            # Commit staged files  
+```
+
+## 🔹 Branching & Merging
+```sh
+git branch <branch_name>           # Create a new branch  
+git checkout <branch_name>         # Switch to a branch  
+git merge <branch_name>            # Merge a branch into the current branch  
+```
+
+## 🔹 Working with Remote Repositories
+```sh
+git remote add origin <url>        # Link local repo to a remote repo  
+git push origin <branch>           # Push changes to the remote repo  
+git pull origin <branch>           # Fetch and merge remote changes  
+git fetch                          # Fetch changes without merging  
+```
+
+## 🔹 Undoing Changes
+```sh
+git reset --soft HEAD~1            # Undo last commit (keep changes staged)  
+git reset --hard HEAD~1            # Undo last commit (discard changes)  
+git revert <commit_id>             # Create a new commit that undoes changes  
+```
+
+## 🔹 Stashing Changes
+```sh
+git stash                          # Save uncommitted changes temporarily  
+git stash list                     # View stashed changes  
+git stash apply                    # Reapply last stashed changes  
+git stash drop                     # Delete last stash  
+```
+
+## 💡 **Quick Tips**
+✔️ Always pull before pushing to avoid conflicts.  
+✔️ Use meaningful commit messages.  
+✔️ Avoid committing sensitive data like credentials.  
+✔️ Use `git log --oneline --graph` to visualize commit history.  
+
+---
+
 # Git: Introduction and Essential Commands
 
 ## What is Git and Why Use It?
 Git is a **distributed version control system** designed to track changes in source code during software development. It allows multiple developers to **collaborate, revert to previous versions,** and **manage different branches** of a project efficiently.
-
----
-
-## Basic Git Commands
-
-### 1. `pwd` - Print Working Directory
-Displays the current working directory where you are working.
-
-### 2. `mkdir` - Make Directory
-Creates a new directory for a project and allows navigation into it.
-
-### 3. `git init` - Initialize Repository
-Initializes an empty Git repository in the current directory, making it ready for version control.
-
-### 4. `echo` - Create a File and Add Content
-Creates a new file and adds the specified content to it.
-
-### 5. `git add` - Stage Changes
-Adds specified files to the staging area, preparing them for commit.
-
-### 6. `git commit` - Commit Changes
-Records the staged changes in the repository with a descriptive message.
-
-### 7. `git remote add origin` - Link to Remote Repository
-Connects the local repository to a remote repository on platforms like GitHub.
-
-### 8. `git push` - Push Changes to Remote
-Uploads local commits to the specified branch of the remote repository.
-
-### 9. `git reset --hard origin/main` - Reset Local Repository
-Discards all local changes and restores the repository to match the remote state.
-
-### 10. `git pull origin main` - Fetch and Merge Changes
-Downloads updates from the remote repository and merges them into the local branch.
-
-### 11. `git pull --rebase origin main` - Rebase Local Changes
-Applies local commits on top of the latest changes fetched from the remote repository.
-
-### 12. `git checkout -b new-feature` - Create and Switch Branch
-Creates a new branch and switches to it for independent development.
-
-### 13. `git merge` - Merge Branches
-Combines changes from a specified branch into the current branch.
-
-### 14. `git stash` - Save Uncommitted Changes Temporarily
-Stores uncommitted changes in a temporary stack to allow a clean working directory.
-
-### 15. `git stash pop` - Restore Stashed Changes
-Applies the most recent stashed changes back to the working directory.
 
 ---
 
