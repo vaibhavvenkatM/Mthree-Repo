@@ -167,7 +167,6 @@ Bitwise operators like `&`, `|`, `^`, `~`, `<<`, and `>>` perform bit-level oper
 
 - **Ranking Functions**: Understood the difference between **RANK()** and **DENSE_RANK()**, especially how ranks are assigned within partitions.
 - **Bitwise Operators**: Discovered how bitwise operations can manipulate and compare integer values at the binary level.
-
 Day 3 (12-02-2025)
 
 Primary Key & Foreign Key
@@ -187,6 +186,18 @@ CREATE TABLE students (
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     email VARCHAR(100)
+);
+
+CREATE TABLE enrollments (
+    enrollment_id INT PRIMARY KEY,
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE SET NULL
+);
+
+
 );
 
 CREATE TABLE enrollments (
