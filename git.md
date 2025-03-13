@@ -86,7 +86,9 @@ Explore the relevant week's folder and open the **.md** files for reference.
 For detailed learning materials, check out the respective **.md** files in each topic folder.
 
 ## 📷 Image Reference
-![Training Image](Images/1.jpg)
+<!-- ![Training Image](Images/1.jpg) -->
+
+![Training Image](../Mthree_notes/Images/1.png)
 
 Happy Learning! 🚀
 
