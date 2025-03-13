@@ -169,12 +169,9 @@ Bitwise operators like `&`, `|`, `^`, `~`, `<<`, and `>>` perform bit-level oper
 - **Bitwise Operators**: Discovered how bitwise operations can manipulate and compare integer values at the binary level.
 Day 3 (12-02-2025)
 
-<<<<<<< HEAD
 
 # Day 3 (12-02-2025)
 
-=======
->>>>>>> 7fe5907cf051b019927221bb917c2a05c70467e6
 Primary Key & Foreign Key
 
 A Primary Key uniquely identifies each record in a table. A Foreign Key establishes a relationship between two tables.
@@ -214,3 +211,39 @@ CREATE TABLE enrollments (
     FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE SET NULL
 );
+# Day 3 (12-02-2025)
+
+## Primary Key & Foreign Key
+
+A **Primary Key** uniquely identifies each record in a table. A **Foreign Key** establishes a relationship between two tables.
+
+### Example SQL Queries:
+
+```sql
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100),
+    credits INT
+);
+```
+
+```sql
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100)
+);
+```
+
+```sql
+CREATE TABLE enrollments (
+    enrollment_id INT PRIMARY KEY,
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE SET NULL
+);
+```
+
