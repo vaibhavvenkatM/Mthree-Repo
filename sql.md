@@ -157,7 +157,7 @@ Joins are used to combine rows from two or more tables based on a related column
 - **Any**: Used in comparisons to check if a value satisfies at least one condition in a subquery.
 
 ### Bitwise Operators
-Bitwise operators like `&`, `|`, `^`, `~`, `<<`, and `>> perform bit-level operations on integer values.
+Bitwise operators like `&`, `|`, `^`, `~`, `<<`, and `>>` perform bit-level operations on integer values.
 
 ### Other Functions
 - **LAT Function**: Likely referring to `LAT()` in GIS databases, used to extract latitude from geographical coordinates.
@@ -167,10 +167,14 @@ Bitwise operators like `&`, `|`, `^`, `~`, `<<`, and `>> perform bit-level opera
 
 - **Ranking Functions**: Understood the difference between **RANK()** and **DENSE_RANK()**, especially how ranks are assigned within partitions.
 - **Bitwise Operators**: Discovered how bitwise operations can manipulate and compare integer values at the binary level.
+Day 3 (12-02-2025)
 
+<<<<<<< HEAD
 
 # Day 3 (12-02-2025)
 
+=======
+>>>>>>> 7fe5907cf051b019927221bb917c2a05c70467e6
 Primary Key & Foreign Key
 
 A Primary Key uniquely identifies each record in a table. A Foreign Key establishes a relationship between two tables.
@@ -192,7 +196,7 @@ CREATE TABLE students (
 
 CREATE TABLE enrollments (
     enrollment_id INT PRIMARY KEY,
-    student_id INT,  
+    student_id INT,
     course_id INT,
     enrollment_date DATE,
     FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -200,225 +204,13 @@ CREATE TABLE enrollments (
 );
 
 
-ON DELETE CASCADE & ON UPDATE CASCADE
-ON DELETE CASCADE: When a referenced record is deleted, dependent records are automatically deleted.
-ON UPDATE CASCADE: When a referenced record is updated, dependent records are updated as well.
-
-Insert Data:
-INSERT INTO students VALUES (1, 'John', 'Doe', 'john.doe@email.com');
-INSERT INTO courses VALUES (101, 'Math', 3);
-INSERT INTO enrollments VALUES (1, 1, 101, '2024-02-12');
-
-
-
-Establishing Relationship Between Tables -  Relationships are created using Foreign Keys.
-
-One-to-Many: A student can enroll in multiple courses, but a course can have many students.
-
-Many-to-Many: Many students can enroll in many courses.
-
-Components of an ER Diagram:
-Entities (Tables like students, courses)
-Attributes (Columns like first_name, course_name)
-Relationships (Foreign Keys in enrollments table)
-Primary Key & Foreign Key (Unique identification and table linking)
-
-Delimiter - A Delimiter is used to define the start and end of a stored procedure.
-
-Syntax:
-DELIMITER //
-
-END //
-DELIMITER ;
-
-
-Stored Procedure - A Stored Procedure is a set of SQL statements that can be executed as a function.
-
-Syntax:
-DELIMITER //
-CREATE PROCEDURE sp_add_student (
-    IN p_first_name VARCHAR(50),
-    IN p_last_name VARCHAR(50),
-    IN p_email VARCHAR(100)
-)
-BEGIN
-    INSERT INTO students (first_name, last_name, email) VALUES (p_first_name, p_last_name, p_email);
-    SELECT LAST_INSERT_ID() AS student_id;
-END //
-
-
-DELIMITER ;
-
-Stored Procedure with IF-ELSE Logic:
-
-DELIMITER //
-CREATE PROCEDURE sp_update_student_email (
-    IN p_student_id INT,
-    IN p_new_email VARCHAR(100)
-) 
-BEGIN
-    DECLARE existing_email VARCHAR(100);
-    SELECT email INTO existing_email FROM students WHERE student_id = p_student_id;
-    
-    IF existing_email IS NULL THEN
-        SELECT 'Student does not exist' AS Message;
-    ELSE
-        UPDATE students SET email = p_new_email WHERE student_id = p_student_id;
-        SELECT 'Email Updated' AS Message;
-    END IF;
-END //
-DELIMITER ;
-
-
-Drop a Stored Procedure: - DROP PROCEDURE IF EXISTS sp_update_student_email;
-
-
-Indexes
-Used to speed up searches and queries
-
-CREATE INDEX idx_student_email ON students(email);
-CREATE UNIQUE INDEX idx_unique_course ON courses(course_name);
-
-
-Circular Dependency Issue in Foreign Key - A Circular Dependency occurs when two tables reference each other as Foreign Keys, making it impossible to insert data without breaking constraints.
-
-Solution: Use NULLABLE Foreign Keys or insert data in a specific order.
-
-Delete Set NULL
-When a referenced row is deleted, the related Foreign Key can be set to NULL instead of deleting dependent rows.
-
-FOREIGN KEY (student_id) REFERENCES studenttttt(student_id) ON DELETE SET NULL;
-
-
-ER Diagram - An Entity-Relationship (ER) Diagram visually represents database tables and their relationships.
-
-Entities: Tables (e.g., students, courses)
-
-Attributes: Columns (e.g., student_id, course_name)
-Relationships: Connections (e.g., One-to-Many between students and enrollments)
-Normalization
-Normalization organizes data efficiently, reducing redundancy and improving integrity.
-
-1NF (First Normal Form): No duplicate columns or repeating groups.
-2NF (Second Normal Form): No partial dependency (all non-key columns depend on the full primary key).
-3NF (Third Normal Form): No transitive dependency (non-key columns depend only on the primary key).
-Example Queries
-
-Insert Data: - INSERT INTO studenttttt VALUES (1, 'John', 'Doe', 'john.doe@email.com');
-
-Select Data:
-SELECT * FROM studenttttt;
-
-Calling a Stored Procedure: - CALL sp_add_employee('Alice', 'Johnson', 'alice.johnson@example.com');
-
-Update Data: - UPDATE employees SET performance_score = 4.5 WHERE emp_id = 1;
-
-Delete Data: - DELETE FROM enrollments WHERE enrollment_id = 2;
-
-
-Find Students Enrolled in a Course:
-SELECT s.first_name, s.last_name, c.course_name 
-FROM studenttttt 
-JOIN enrollments e ON s.student_id = e.student_id
-JOIN courses c ON e.course_id = c.course_id;
-
-
-Find Courses with No Enrollments:
-SELECT course_name FROM courses 
-WHERE course_id NOT IN (SELECT DISTINCT course_id FROM enrollments);
-
-
-Get Total Number of Enrollments per Course:
-SELECT c.course_name, COUNT(e.student_id) AS total_enrollments 
-FROM courses c
-LEFT JOIN enrollments e ON c.course_id = e.course_id
-GROUP BY c.course_name;
-
-
-Additional Learnings
-ON DELETE SET NULL - When a referenced row is deleted, the foreign key column is set to NULL instead of deleting the row
- Cascading Updates - Foreign key values update automatically if the referenced primary key changes (ON UPDATE CASCADE).. 
-
-
-# Day 4 (13-02-2024)
-
-## CONCAT
-
-The `CONCAT` function in SQL is used to combine two or more strings into a single string.
-
-**Syntax:**
-
-
-SELECT CONCAT(string1, string2, ...);
-
-
-Example:
-
-SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;
-
-This will combine the `first_name` and `last_name` columns to create a full name.
-
-
-
-## INDEX
-
-Indexes in SQL are used to enhance the performance of queries by reducing the time required to retrieve records.
-
-**Syntax:**
-
-
-CREATE INDEX index_name ON table_name (column_name);
-
-
-Example:
-
-
-CREATE INDEX idx_employee_name ON employees (last_name);
-
-
-This creates an index on the `last_name` column of the `employees` table to speed up search queries.
-
-
-
-## TRIGGERS
-
-A trigger is a set of SQL statements that are automatically executed when a specific event occurs in the database.
-
-**Syntax:**
-
-CREATE TRIGGER trigger_name
-AFTER INSERT ON table_name
-FOR EACH ROW
-BEGIN
-   -- SQL Statements
-END;
-
-Example:
-
-CREATE TRIGGER after_employee_insert
-AFTER INSERT ON employees
-FOR EACH ROW
-BEGIN
-   INSERT INTO audit_log (action, employee_id, timestamp)
-   VALUES ('INSERT', NEW.employee_id, NOW());
-END;
-
-This trigger will insert a log entry into the `audit_log` table whenever a new employee is inserted into the `employees` table.
-
-
-
-## COALESCE
-
-The `COALESCE` function returns the first non-null value from a list of values.
-
-**Syntax:**
-
-SELECT COALESCE(value1, value2, ...);
-
-
-Example:
-
-SELECT COALESCE(phone_number, 'No phone number available') AS contact_number FROM customers;
-
-
-This will return the `phone_number` if it's not null, or "No phone number available" if `phone_number` is null.
+);
+
+CREATE TABLE enrollments (
+    enrollment_id INT PRIMARY KEY,
+    student_id INT,  
+    course_id INT,
+    enrollment_date DATE,
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE SET NULL
+);
