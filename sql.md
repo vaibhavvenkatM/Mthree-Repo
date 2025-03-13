@@ -171,11 +171,11 @@ Bitwise operators like `&`, `|`, `^`, `~`, `<<`, and `>> perform bit-level opera
 
 # Day 3 (12-02-2025)
 
-## Primary Key & Foreign Key
+Primary Key & Foreign Key
 
 A Primary Key uniquely identifies each record in a table. A Foreign Key establishes a relationship between two tables.
 
-**Example SQL Queries:**
+Example SQL Queries:
 
 CREATE TABLE courses (
     course_id INT PRIMARY KEY,
