@@ -213,3 +213,5 @@ Kubernetes (K8s) is an open-source container orchestration platform that automat
     minikube delete
     ```
 
+
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/40.png)
