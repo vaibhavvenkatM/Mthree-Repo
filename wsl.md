@@ -26,6 +26,8 @@ sudo mysql
 
 After installation, we created tables and executed some queries.
 
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/4.png)
+
 ---
 
 ### Working with WSL Commands
@@ -44,6 +46,8 @@ cp -rf b.txt /mnt/c/    # Copy b.txt to the C drive
 cp -rf a /mnt/c/Users/username/  # Copy an entire folder to another location
 rm -rf /mnt/c/Users/srs33/a  # Delete a file or folder
 ```
+
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/5.png)
 
 ---
 

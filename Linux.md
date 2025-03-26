@@ -61,6 +61,7 @@ ps aux
 kill -9 process_id  # Example: kill -9 119675
 ```
 
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/6.png)
 ---
 
 ## User Information
@@ -141,7 +142,7 @@ awk '$2 > 25 {print $1, "is older than 25"}' data.txt
 ```sh
 df -h  # Shows available and used disk space in human-readable format
 ```
-
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/8.png)
 - **Check memory usage:**
 ```sh
 free -h  # Displays system memory usage (RAM and swap) in human-readable format
@@ -157,7 +158,7 @@ free -h  # Displays system memory usage (RAM and swap) in human-readable format
 ```sh
 top
 ```
-
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/9.png)
 ---
 
 ## Installing and Removing Packages
@@ -170,6 +171,6 @@ sudo apt install curl -y
 ```sh
 sudo apt remove curl -y
 ```
-
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/10.png)
 This document provides an overview of essential Linux commands for file handling, process management, system monitoring, and package management. 🚀
 
