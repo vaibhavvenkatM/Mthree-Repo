@@ -127,6 +127,31 @@ export default Counter;
 
 ---
 
+## Difference Between Props and State
+| Feature  | Props | State |
+|----------|-------|-------|
+| Mutability | Immutable (cannot be changed) | Mutable (can be updated) |
+| Who updates it? | Parent Component | Component itself |
+| Usage | Pass data between components | Manage component data |
+
+Example:
+```jsx
+function Message(props) {
+  return <h1>{props.text}</h1>;
+}
+<Message text="Hello" />
+```
+
+```jsx
+import React, { useState } from "react";
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <h1>{count}</h1>;
+}
+```
+
+---
+
 ## React Lifecycle Methods
 **Lifecycle methods** are only available in class components.
 
