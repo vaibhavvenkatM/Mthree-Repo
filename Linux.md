@@ -54,6 +54,8 @@ cat file_name
 ps aux
 ```
 
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/29.png)
+
 - **Killing a process forcefully:**
 ```sh
 kill -9 process_id  # Example: kill -9 119675
@@ -90,7 +92,7 @@ This will send ICMP echo requests to Google's servers, and you'll see the respon
 ```sh
 ping google.com
 ```
-
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/30.png)
 ---
 
 ## Sorting and Filtering Text
@@ -144,7 +146,7 @@ df -h  # Shows available and used disk space in human-readable format
 ```sh
 free -h  # Displays system memory usage (RAM and swap) in human-readable format
 ```
-
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/28.png)
 ---
 
 ## `top` Command

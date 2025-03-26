@@ -254,3 +254,7 @@ print(parsed_person["name"])
 
 This document covers the **basics of Python** including installation, data types, control structures, functions, file handling, OOP, and JSON handling. 🚀
 
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/18.png)
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/19.png)
+
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/35.png)

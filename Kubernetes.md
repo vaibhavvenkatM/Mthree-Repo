@@ -49,6 +49,7 @@ Kubernetes (K8s) is an open-source container orchestration platform that automat
    sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common gnupg2 conntrack
    ```
 
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/37.png)
 3. **Remove Old Docker Versions (if any)**
    ```bash
    sudo apt-get remove -y docker docker-engine docker.io containerd runc
@@ -96,6 +97,7 @@ Kubernetes (K8s) is an open-source container orchestration platform that automat
    # Hold packages at current version
    sudo apt-mark hold kubelet kubeadm kubectl
    ```
+   ![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/38.png)
 
 8. **Disable Swap**
    ```bash
@@ -136,7 +138,7 @@ Kubernetes (K8s) is an open-source container orchestration platform that automat
     sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
     sudo chown $(id -u):$(id -g) $HOME/.kube/config
     ```
-
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/39.png)
 11. **Install Network Plugin (Calico)**
     ```bash
     kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml

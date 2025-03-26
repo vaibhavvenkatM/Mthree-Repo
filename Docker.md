@@ -28,6 +28,7 @@ sudo apt update
 ```sh
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
 ```
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/21.png)
 
 ### **3. Add Docker’s Official GPG Key**
 ```sh
@@ -75,7 +76,7 @@ touch src/__init__.py
  touch .dockerignore
  touch docker-compose.yml
 ```
-
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/22.png)
 ### **3. Configure `requirements.txt`**
 ```txt
 flask
@@ -100,6 +101,7 @@ __pycache__
 .git
 *.db
 ```
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/27.png)
 
 ### **6. Create `docker-compose.yml`**
 ```yaml
@@ -126,6 +128,8 @@ docker build -t python-docker-app .
 docker run -p 5000:5000 python-docker-app
 ```
 
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/23.png)
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/24.png)
 ---
 
 # Day 12 (25-02-2025) - Linux & Jenkins
@@ -154,7 +158,8 @@ ip -4 addr show  # Show only IPv4 addresses
 ip -6 addr show  # Show only IPv6 addresses
 ip -br addr  # Show simplified network interface details
 ```
-
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/31.png)
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/32.png)
 ### **Install Stress Tool**
 ```sh
 sudo apt install stress  # CPU, memory, and disk stress-testing tool
@@ -196,7 +201,7 @@ sudo apt install jenkins -y
 ```sh
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
-
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/33.png)
 ### **3. Add Jenkins User to Docker Group**
 ```sh
 sudo usermod -aG docker jenkins

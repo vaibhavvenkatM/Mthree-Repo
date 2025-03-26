@@ -10,6 +10,7 @@ Jenkins is an open-source automation server that helps automate the software dev
 
 ---
 
+
 ## 2. Why Use Jenkins?
 - **Automates Repetitive Tasks:** Reduces manual intervention.
 - **Continuous Integration (CI):** Automatically tests and merges code.
@@ -34,6 +35,7 @@ Jenkins is an open-source automation server that helps automate the software dev
    - Deployment scripts were executed manually.
    - Risky, error-prone, and inconsistent.
 
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/34.png)
 ### Challenges Faced:
 - **Long Development Cycles:** New features took weeks/months to reach production.
 - **Late Bug Detection:** Issues were discovered after development, making fixes expensive.
@@ -80,6 +82,8 @@ Jenkins introduced Continuous Integration (CI) & Continuous Deployment (CD) to a
 5. Application is live without downtime 🎉
 
 ✅ **Result:** Faster releases, fewer bugs, and a smooth customer experience!
+
+![](https://github.com/vaibhavvenkatM/documentation/blob/main/Images/36.png)
 
 ---
 
