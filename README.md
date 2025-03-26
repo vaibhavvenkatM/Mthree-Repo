@@ -1,6 +1,6 @@
 # Mthree Training Guide
 
-Welcome to the **Mthree Training** repository! This repository serves as a structured learning hub, categorized by weekly modules, covering essential topics such as **SQL, Linux, Python, WSL, Git, Shell Scripting, Jenkins, Docker, Kubernetes, and more**.
+Welcome to the **Mthree Training** repository! This repository serves as a structured learning hub, categorized by weekly modules, covering essential topics such as **SQL, Linux, Python, WSL, Git, Shell Scripting, Jenkins, Docker, Kubernetes, React, Angular, and more**.
 
 ## 📁 Repository Overview
 This repository is systematically divided into weekly training sessions:
@@ -26,6 +26,13 @@ This repository is systematically divided into weekly training sessions:
 - In-depth **Kubernetes** Applications
 - **Python String Operations & Methods**
 - **k8s-master-app** Setup
+- Basics of **React and Angular**
+
+### **Week 5**
+- **Advanced React & Angular Concepts**
+- State Management using Redux
+- **DevOps Best Practices**
+- Implementing **Microservices Architecture**
 
 ## 🚀 Getting Started
 Clone the repository to your local system:
@@ -35,11 +42,12 @@ cd documentation
 ```
 
 Explore the relevant week's folder and open the **.md** files for reference.
-
+<!-- 
 ## 📌 Topics Covered
 ### **SQL**
 - Primary & Foreign Keys
 - Stored Procedures & Indexes
+- 
 - SQL Queries and Normalization
 
 ### **Linux**
@@ -61,6 +69,7 @@ Explore the relevant week's folder and open the **.md** files for reference.
 - Git Basics & Commands
 - Branching & Merging
 - Handling Merge Conflicts
+- Using SSH Keys for Secure Authentication
 
 ### **Shell Scripting**
 - Writing Bash Scripts
@@ -82,7 +91,23 @@ Explore the relevant week's folder and open the **.md** files for reference.
 - Pods, Services & Deployments
 - Managing Kubernetes Clusters
 
-## 📖 Additional Resources
+### **React**
+- Components & Props
+- State & Lifecycle Methods
+- Hooks & Context API
+
+### **Angular**
+- Modules & Components
+- Services & Dependency Injection
+- Routing & State Management
+
+### **DevOps & Microservices**
+- CI/CD Best Practices
+- Monitoring & Logging
+- Microservices Design Patterns -->
+
+## 📚 Additional Resources
 For detailed learning materials, check out the respective **.md** files in each topic folder.
 
 Happy Learning! 🚀
+
