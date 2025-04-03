@@ -15,9 +15,32 @@ import ChallengeDisplay from '../pages/ChallengeDisplay.jsx';
 import Feedback from '../pages/Feedback.jsx';
 
 // Authentication check function
-const getCookie = (name) => {
+const getCookie = () => {
   return localStorage.getItem("token");
 };
+
+const ping = async()=> {
+  const token = getCookie();
+  if(!token) return;
+  fetch("http://localhost:5000/ping", {
+    method: "GET",
+    headers: {
+        Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(response => {
+    if (response.status === 401 || response.status === 403) {
+        console.log("Expired Token, clearing token...");
+        localStorage.removeItem("token"); // Remove token
+    }
+    else if (response.status === 200){
+      console.log("Token is valid");
+    }
+  })
+  .catch(error => console.error("Fetch error:", error));
+}
+
+await ping();
 
 const isAuthenticated = () => {
   return getCookie() !== null;
