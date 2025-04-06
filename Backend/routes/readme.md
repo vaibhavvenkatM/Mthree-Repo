@@ -1,104 +1,131 @@
-## 🚀 Overview
+# Routes Documentation
 
-QuizMaster is a comprehensive quiz platform API that allows users to participate in various quiz challenges, compete with friends, track progress on leaderboards, and engage in a social gaming experience. Built with Express.js, the platform features robust authentication, friend management, and quiz gameplay systems.
+## Overview
+This document provides an overview of all route files in the QuizMaster API, detailing each endpoint's purpose, required authentication, and relation to the corresponding controllers.
 
-## ✨ Features
+## Authentication Routes (`authRoutes.js`)
+Manages user registration and authentication.
 
-- **User Authentication** - Secure signup and login system
-- **Profile Management** - User profile creation and retrieval
-- **Quiz Challenges** - Multiple quiz formats and challenges
-- **Multiplayer Support** - Join queues and compete with others
-- **Friend System** - Send/accept friend requests and manage connections
-- **Leaderboards** - Track top performers
-- **Challenge Creation** - Create and share custom challenges
-- **Feedback System** - Submit feedback on quiz experience
+| Method | Endpoint      | Function  | Description                     | Auth Required |
+|--------|---------------|-----------|----------------------------------|---------------|
+| GET    | /auth/        | -         | Welcome message                  | No            |
+| GET    | /auth/signup  | -         | Welcome to signup page (debug)   | No            |
+| POST   | /auth/signup  | `signup`  | Register a new user              | No            |
+| GET    | /auth/login   | -         | Welcome to login page (debug)    | No            |
+| POST   | /auth/login   | `login`   | Authenticate a user              | No            |
 
-## 🔧 API Routes
+**Controller Dependencies:**
+- `authController.js` - Provides signup and login functions
 
-### Authentication
+## Challenge Routes (`challengeRoutes.js`)
+Handles the creation and retrieval of user-created challenges.
 
-| Method | Endpoint      | Description                 | Authentication Required |
-|--------|---------------|-----------------------------|------------------------|
-| POST   | /auth/signup  | Register a new user         | No                     |
-| POST   | /auth/login   | Login to existing account   | No                     |
-| GET    | /auth/        | Check authentication status | No                     |
+| Method | Endpoint         | Function         | Description                | Auth Required |
+|--------|------------------|------------------|----------------------------|---------------|
+| POST   | /challenge/      | `save_Challenge` | Create a new challenge     | Yes           |
+| GET    | /challenge/show  | `show_challenge` | Retrieve all challenges    | Yes           |
 
-### Profile
+**Controller Dependencies:**
+- `challengeController.js` - Provides challenge management functions
+- `authMiddleware.js` - For user authentication
 
-| Method | Endpoint      | Description                 | Authentication Required |
-|--------|---------------|-----------------------------|------------------------|
-| GET    | /profile/     | Get user profile data       | Yes                    |
+## Feedback Routes (`fedbckRoutes.js`)
+Manages submission of user feedback.
 
-### Quiz & Questions
+| Method | Endpoint      | Function        | Description           | Auth Required |
+|--------|---------------|-----------------|------------------------|---------------|
+| POST   | /feedback/    | `save_feedback` | Submit user feedback   | Yes           |
 
-| Method | Endpoint      | Description                 | Authentication Required |
-|--------|---------------|-----------------------------|------------------------|
-| GET    | /ques/        | Get topic/question data     | No (temporary)         |
-| POST   | /quiz1/start  | Start a quiz game           | Yes                    |
-| POST   | /quiz1/end    | End a quiz game             | Yes                    |
-| POST   | /quiz2/join   | Join multiplayer queue      | Yes                    |
-| POST   | /quiz2/leave  | Leave multiplayer queue     | Yes                    |
+**Controller Dependencies:**
+- `fedbckController.js` - Provides feedback submission functionality
+- `authMiddleware.js` - For user authentication
 
-### Challenges
+## Friend Routes (`friendRoutes.js`)
+Handles all friend-related operations including sending requests, accepting/rejecting requests, and managing friend lists.
 
-| Method | Endpoint      | Description                 | Authentication Required |
-|--------|---------------|-----------------------------|------------------------|
-| POST   | /challenge/   | Save a new challenge        | Yes                    |
-| GET    | /challenge/show | View available challenges | Yes                    |
+| Method | Endpoint                 | Function            | Description              | Auth Required |
+|--------|--------------------------|---------------------|--------------------------|---------------|
+| GET    | /friends/get_users       | `Get_Users`         | Get available users      | Yes           |
+| POST   | /friends/send_req        | `Send_FriendReq`    | Send a friend request    | Yes           |
+| GET    | /friends/show_req        | `Show_FriendReq`    | View friend requests     | Yes           |
+| POST   | /friends/accept_req      | `Accept_FriendReq`  | Accept a friend request  | Yes           |
+| POST   | /friends/reject_req      | `Reject_FriendReq`  | Reject a friend request  | Yes           |
+| GET    | /friends/get_friends     | `Fetch_Friends`     | View friends list        | Yes           |
+| POST   | /friends/remove_friend   | `Remove_Friend`     | Remove a friend          | Yes           |
 
-### Friends
+**Controller Dependencies:**
+- `friendsController.js` - Provides friend management functions
+- `authMiddleware.js` - For user authentication
 
-| Method | Endpoint                 | Description                | Authentication Required |
-|--------|--------------------------|----------------------------|------------------------|
-| GET    | /friends/get_users       | Get available users        | Yes                    |
-| POST   | /friends/send_req        | Send a friend request      | Yes                    |
-| GET    | /friends/show_req        | View pending requests      | Yes                    |
-| POST   | /friends/accept_req      | Accept a friend request    | Yes                    |
-| POST   | /friends/reject_req      | Reject a friend request    | Yes                    |
-| GET    | /friends/get_friends     | View your friends list     | Yes                    |
-| POST   | /friends/remove_friend   | Remove a friend            | Yes                    |
+## Leaderboard Routes (`leaderboardRoutes.js`)
+Retrieves leaderboard data for the application.
 
-### Leaderboard
+| Method | Endpoint        | Function          | Description                | Auth Required |
+|--------|-----------------|-------------------|----------------------------|---------------|
+| GET    | /leaderboard/   | `get_leaderBoard` | Get leaderboard data       | Yes           |
 
-| Method | Endpoint      | Description                 | Authentication Required |
-|--------|---------------|-----------------------------|------------------------|
-| GET    | /leaderboard/ | Get global leaderboard data | Yes                    |
+**Controller Dependencies:**
+- `leaderboardController.js` - Provides leaderboard data retrieval
+- `authMiddleware.js` - For user authentication
 
-### Feedback
+## Ping Routes (`pingRoutes.js`)
+Simple utility route to verify token validity and connection status.
 
-| Method | Endpoint      | Description                 | Authentication Required |
-|--------|---------------|-----------------------------|------------------------|
-| POST   | /feedback/    | Submit feedback             | Yes                    |
+| Method | Endpoint    | Function              | Description              | Auth Required |
+|--------|-------------|------------------------|--------------------------|---------------|
+| GET    | /ping/      | Anonymous function    | Verify token validity    | Yes           |
 
-### System
+**Controller Dependencies:**
+- `authMiddleware.js` - For user authentication
 
-| Method | Endpoint      | Description                 | Authentication Required |
-|--------|---------------|-----------------------------|------------------------|
-| GET    | /ping/        | Verify token/connection     | Yes                    |
+## Profile Routes (`profileRouter.js`)
+Manages user profile retrieval.
 
-## 🔒 Authentication
+| Method | Endpoint     | Function      | Description              | Auth Required |
+|--------|--------------|---------------|--------------------------|---------------|
+| GET    | /profile/    | `getProfile`  | Retrieve user profile    | Yes           |
 
-The API uses token-based authentication through the `authenticateUser` middleware. Most endpoints require a valid authentication token, which can be obtained through the login process.
+**Controller Dependencies:**
+- `profileController.js` - Provides profile data retrieval
+- `authMiddleware.js` - For user authentication
 
-## 📋 Getting Started
+## Question Routes (`quesRoutes.js`)
+Handles topic and question data retrieval.
 
-1. Clone the repository
-2. Install dependencies
-   ```
-   npm install
-   ```
-3. Configure your environment variables
-4. Start the server
-   ```
-   npm start
-   ```
+| Method | Endpoint    | Function       | Description                | Auth Required |
+|--------|-------------|----------------|----------------------------|---------------|
+| GET    | /ques/      | `getTopicData` | Get topic/question data    | No (temporary)|
 
-## 🛠️ Technologies Used
+**Notes:**
+- This route is temporarily set without authentication for debugging purposes
+- Will require authentication in production
 
-- Express.js
-- Node.js
-- MongoDB (implied by the structure)
-- JSON Web Tokens (for authentication)
+**Controller Dependencies:**
+- `quesController.js` - Provides topic data retrieval functions
 
+## Quiz 1 Routes (`quiz1Routes.js`)
+Manages single-player quiz game sessions.
 
+| Method | Endpoint      | Function    | Description          | Auth Required |
+|--------|---------------|-------------|----------------------|---------------|
+| POST   | /quiz1/start  | `startGame` | Start a quiz game    | Yes           |
+| POST   | /quiz1/end    | `endGame`   | End a quiz game      | Yes           |
 
+**Controller Dependencies:**
+- `quiz1Controller.js` - Provides game management functions
+- `authMiddleware.js` - For user authentication
+
+## Quiz 2 Routes (`quiz2Routes.js`)
+Manages multiplayer quiz game matchmaking.
+
+| Method | Endpoint      | Function     | Description              | Auth Required |
+|--------|---------------|--------------|--------------------------|---------------|
+| POST   | /quiz2/join   | `joinQueue`  | Join multiplayer queue   | Yes           |
+| POST   | /quiz2/leave  | `leaveQueue` | Leave multiplayer queue  | Yes           |
+
+**Controller Dependencies:**
+- `quiz2Controller.js` - Provides multiplayer queue management
+- `authMiddleware.js` - For user authentication
+
+## Authentication Middleware
+Most routes use the `authenticateUser` middleware from `authMiddleware.js` to verify the user's authentication token before allowing access to protected endpoints.

@@ -1,70 +1,61 @@
-# JWT Authentication Middleware
+# Authentication Middleware
 
-A lightweight and secure JWT (JSON Web Token) authentication middleware for Express.js applications. This middleware verifies user authentication tokens and controls access to protected routes.
+## Overview
+This module provides authentication middleware for securing API endpoints using JSON Web Tokens (JWT).
 
-## Features
+## File
+`authMiddleware.js`
 
-- 🔒 Secure API routes with JWT authentication
-- ⚡ Lightweight implementation with minimal dependencies
-- 🔑 Extracts and verifies tokens from Authorization headers
-- 👤 Attaches decoded user data to request objects
-- ⚙️ Environment-based configuration
+## Dependencies
+- `jsonwebtoken`: For JWT verification
+- `dotenv`: For loading environment variables
 
-## Installation
-
-```bash
-npm install jsonwebtoken dotenv
+## Configuration
+The middleware uses a secret key defined in the environment variables:
+```
+JWT_SECRET=your_secret_key_here
 ```
 
-## Usage
+If no environment variable is set, it falls back to a default value (`"needs_to_be_changed"`), which should be changed in production.
 
-### Basic Setup
+## Functions
 
+### `authenticateUser(req, res, next)`
+Middleware function that verifies a JWT token from the Authorization header.
+
+#### Parameters
+- `req`: Express request object
+- `res`: Express response object
+- `next`: Express next middleware function
+
+#### Process
+1. Extracts the token from the Authorization header (format: `Bearer <token>`)
+2. Verifies the token using the secret key
+3. If valid, attaches the decoded user information to the request object as `req.user`
+4. If invalid or missing, returns appropriate error responses
+
+#### Returns
+- On success: Calls `next()` to proceed to the next middleware/route handler
+- On failure: Returns a JSON response with appropriate status code
+  - `401 Unauthorized`: No token provided
+  - `403 Forbidden`: Invalid token
+
+## Usage Example
 ```javascript
-// Import the middleware
-const { authenticateUser } = require('./authMiddleware');
-const express = require('express');
-const app = express();
+const { authenticateUser } = require('./path/to/authMiddleware');
 
-// Protect routes with the middleware
+// Apply to individual routes
 app.get('/protected-route', authenticateUser, (req, res) => {
-  // Access user data from the token
-  const userId = req.user.id;
-  
-  res.json({ 
-    message: "This is a protected route",
-    user: req.user 
-  });
+  // Access user info with req.user
+  res.json({ message: `Hello ${req.user.username}!` });
 });
+
+// Or apply to all routes under a certain path
+app.use('/api/protected', authenticateUser);
+app.use('/api/protected', protectedRoutes);
 ```
 
-### Environment Configuration
-
-Create a `.env` file in your project root:
-
-```
-JWT_SECRET=your_strong_secret_key_here
-```
-
-## How It Works
-
-1. The middleware extracts the JWT token from the `Authorization` header
-2. It verifies the token using your secret key
-3. If valid, it attaches the decoded user information to the request object
-4. If invalid or missing, it returns appropriate error responses
-
-## Error Responses
-
-| Status | Message | Cause |
-|--------|---------|-------|
-| 401 | "Unauthorized: No token provided" | Missing token in request header |
-| 403 | "Forbidden: Invalid token" | Token is invalid or expired |
-
-## Security Best Practices
-
-- Always use a strong, unique `JWT_SECRET` in your production environment
-- Set appropriate token expiration times
-- Use HTTPS in production to prevent token interception
-- Consider implementing token refresh mechanisms for long-lived sessions
-
-
+## Security Notes
+- Make sure to set a strong `JWT_SECRET` environment variable in production
+- The default fallback secret should never be used in production environments
+- The middleware does not check token expiration explicitly (handled by jwt.verify)

@@ -1,87 +1,93 @@
-# Multiplayer Game Backend Documentation
+# Quiz2 Controller Documentation
 
-## Overview
+This controller manages the 2 player quiz game logic, handling socket connections, game state, and matchmaking.
 
-This Node.js module implements a real-time multiplayer game system using Socket.io. The code manages player matchmaking, game sessions, score tracking, and database integration for a quiz-style game where players compete by answering questions on various topics.
+---
 
-## Key Components
+## 🔧 Dependencies
+```js
+const { v4: uuidv4 } = require("uuid");
+const { saveTwoPlayerSession } = require("../config/db_fun");
+const { fetchTopicData } = require("./quesController");
+```
 
-### Socket Management
-- `setSocketIo`: Initializes the Socket.io instance for communication
-- `setupGameEndHandler`: Sets up event listeners for game completion and disconnections
+---
 
-### Game State Management
-- Maintains several state trackers:
-  - `waitingQueue`: Queue of players waiting to be matched
-  - `activePlayers`: Currently playing players
-  - `gameScores`: Tracks scores and game state for active games
-  - `socketIdToUserId` and `UserIdToSocketId`: Bidirectional mappings between socket IDs and user IDs
+## 🔄 Core Components
 
-### Game Lifecycle Functions
+### Global State
+- `waitingQueue`: Queue for players waiting to be matched.
+- `activePlayers`: Array of two players currently playing.
+- `gameInProgress`: Boolean flag for ongoing game.
+- `blockNewGame`: Prevents rapid successive game starts.
+- `socketIdToUserId`: Maps socket IDs to user IDs.
+- `UserIdToSocketId`: Reverse mapping of the above.
+- `gameScores`: Stores game metadata per `gameId`.
 
-#### `joinQueue`
-- Adds a player to the waiting queue
-- Handles cases where a player is already in queue or active game
-- Maps socket ID to user ID
+---
 
-#### `leaveQueue`
-- Removes a player from the waiting queue
-- Prevents leaving during an active game
+## 🔌 Socket.IO
 
-#### `startGame`
-- Matches two players from the waiting queue
-- Generates a unique game ID
-- Selects a random topic
-- Fetches questions for the selected topic
-- Initializes game state with player information
-- Emits game start event to players
+### `setSocketIo(socketIoInstance)`
+Initializes the socket instance used for communication.
 
-#### `finishGame`
-- Called when both players submit scores or time expires
-- Saves game results to database
-- Cleans up game state
-- Implements a cooldown period before allowing new games
+### `setupGameEndHandler(socket)`
+Listens to two events:
+- **`game_end`**: Handles score submissions and triggers game conclusion.
+- **`disconnect`**: Cleans up state if a user disconnects.
 
-#### `saveSession`
-- Saves game data to the database
-- Determines winner based on scores
+---
 
-## Game Flow
+## 🎮 Game Lifecycle Functions
 
-1. Players join the waiting queue
-2. When at least two players are in queue, `startGame` is called
-3. Players receive questions and begin playing
-4. Players submit scores through `game_end` event
-5. When both players submit or time expires, `finishGame` is called
-6. Results are saved and game state is cleaned up
+### `startGame()`
+Starts a game when two players are in the queue:
+- Fetches random topic data.
+- Assigns questions.
+- Initializes `gameScores`.
+- Emits `game_start` to both players.
 
-## Error Handling
+### `finishGame(gameId)`
+Called when both players submit scores or the game times out:
+- Saves game result.
+- Cleans up memory and mappings.
+- Triggers next game after a 3-second delay.
 
-- Comprehensive error handling throughout
-- Recovery mechanisms for various failure scenarios
-- Player reconnection management
+---
 
-## Socket Events
+## 🗂 Database Interaction
 
-| Event | Description |
-|-------|-------------|
-| `game_start` | Sent to players when a game begins |
-| `queued` | Confirmation that a player has joined the queue |
-| `game_end` | Received when a player submits their score |
-| `disconnect` | Handled when a player disconnects |
+### `saveSession(gameId, player1, player2, player1Score, player2Score)`
+Determines game result and saves it using `saveTwoPlayerSession`.
 
-## Database Integration
+---
 
-- Game sessions are saved to database
-- Player IDs, game results, and winner information is recorded
+## 📥 HTTP Endpoints
 
-## Timeouts and Limits
+### `joinQueue(req, res)`
+- Adds the player to the matchmaking queue.
+- Prevents multiple concurrent logins.
+- Emits `queued` to the client.
 
-- Games automatically end after 135 seconds (2m 15s)
-- 3-second cooldown between games
-- Automatic cleanup of disconnected players
+### `leaveQueue(req, res)`
+- Removes the player from the queue.
+- Rejects if the user is in an active game.
 
-## API Endpoints
+---
 
-- `/joinQueue`: Adds a player to the waiting queue
-- `/leaveQueue`: Removes a player from the waiting queue
+## 🔍 Utility
+
+### `findGameBySocketId(socketId)`
+Returns the game ID for a player if found in `gameScores`.
+
+---
+
+## 📦 Exported Functions
+```js
+module.exports = {
+  setSocketIo,
+  setupGameEndHandler,
+  joinQueue,
+  leaveQueue
+};
+```

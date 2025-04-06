@@ -1,172 +1,119 @@
-# Friendship Controller Documentation
-
-This document outlines the controller functions related to user friendship management in the application.
+# Friend Controller Documentation
 
 ## Overview
+This controller file manages user friendship operations, including sending, accepting, and rejecting friend requests, as well as displaying and removing friends.
 
-The friendship controller provides API endpoints to manage user relationships, including:
-- Finding other users
-- Sending friend requests
-- Viewing received friend requests
-- Accepting and rejecting friend requests
-- Viewing current friends
-- Removing friends
+## Functions
 
-## Dependencies
+### `Get_Users(req, res)`
+Retrieves users that can be added as friends.
 
-The controller leverages database functions from the `../config/db_fun` module:
+#### Parameters
+- `req` - Express request object containing the authenticated user information
+- `res` - Express response object
 
-```javascript
-const { 
-    findUsers,
-    addFriend,
-    showFriendreq,
-    acceptFriend,
-    rejectFriend,
-    displayFriend,
-    removeFriend
-} = require("../config/db_fun");
-```
+#### Process Flow
+1. Extracts the user ID from the request object
+2. Calls `findUsers(userid)` to retrieve potential friends
+3. Returns the data in a JSON response with status 200 if successful
+4. Returns error information with status 500 if the operation fails
 
-## API Endpoints
+### `Send_FriendReq(req, res)`
+Sends a friend request to another user.
 
-### Get Users
+#### Parameters
+- `req` - Express request object containing the authenticated user ID and target user ID
+- `res` - Express response object
 
-Retrieves a list of users excluding the requesting user.
+#### Process Flow
+1. Extracts the sender's user ID from the request object
+2. Extracts the recipient's user ID from the request body
+3. Calls `addFriend(user1id, user2id)` to create a friend request
+4. Returns a success message with status 200 if successful
+5. Returns error information with status 500 if the operation fails
 
-```javascript
-const Get_Users = async (req, res) => {
-    const userid = req.user.userId;
-    // Returns list of potential users to add as friends
-}
-```
+### `Show_FriendReq(req, res)`
+Retrieves pending friend requests for the authenticated user.
 
-- **Method**: GET
-- **Auth Required**: Yes (userId from req.user)
-- **Success Response**: 200 OK with array of user objects
-- **Error Response**: 500 Internal Server Error
+#### Parameters
+- `req` - Express request object containing the authenticated user information
+- `res` - Express response object
 
-### Send Friend Request
+#### Process Flow
+1. Extracts the user ID from the request object
+2. Calls `showFriendreq(userid)` to retrieve pending friend requests
+3. Returns the data in a JSON response with status 200 if successful
+4. Returns error information with status 500 if the operation fails
 
-Sends a friend request from the authenticated user to another user.
-
-```javascript
-const Send_FriendReq = async (req, res) => {
-    const user1id = req.user.userId;
-    const user2id = req.body.userId;
-    // Sends friend request
-}
-```
-
-- **Method**: POST
-- **Auth Required**: Yes (userId from req.user)
-- **Request Body**: `{ userId: "recipient_user_id" }`
-- **Success Response**: 200 OK
-- **Error Response**: 500 Internal Server Error
-
-### Show Friend Requests
-
-Returns a list of pending friend requests for the authenticated user.
-
-```javascript
-const Show_FriendReq = async(req, res) => {
-    const userid = req.user.userId;
-    // Returns list of friend requests
-}
-```
-
-- **Method**: GET
-- **Auth Required**: Yes (userId from req.user)
-- **Success Response**: 200 OK with array of friend request objects
-- **Error Response**: 500 Internal Server Error
-
-### Accept Friend Request
-
+### `Accept_FriendReq(req, res)`
 Accepts a pending friend request.
 
-```javascript
-const Accept_FriendReq = async(req, res) => {
-    const user1id = req.user.userId;
-    const user2id = req.body.userId;
-    // Accepts friend request
-}
-```
+#### Parameters
+- `req` - Express request object containing the authenticated user ID and requester's user ID
+- `res` - Express response object
 
-- **Method**: POST
-- **Auth Required**: Yes (userId from req.user)
-- **Request Body**: `{ userId: "requester_user_id" }`
-- **Success Response**: 200 OK
-- **Error Response**: 500 Internal Server Error
+#### Process Flow
+1. Extracts the recipient's user ID from the request object
+2. Extracts the requester's user ID from the request body
+3. Calls `acceptFriend(user1id, user2id)` to accept the friend request
+4. Returns a success message with status 200 if successful
+5. Returns error information with status 500 if the operation fails
 
-### Reject Friend Request
+### `Reject_FriendReq(req, res)`
+Rejects a pending friend request.
 
-Declines a pending friend request.
+#### Parameters
+- `req` - Express request object containing the authenticated user ID and requester's user ID
+- `res` - Express response object
 
-```javascript
-const Reject_FriendReq = async(req, res) => {
-    const user1id = req.user.userId;
-    const user2id = req.body.userId;
-    // Rejects friend request
-}
-```
+#### Process Flow
+1. Extracts the recipient's user ID from the request object
+2. Extracts the requester's user ID from the request body
+3. Calls `rejectFriend(user1id, user2id)` to reject the friend request
+4. Returns a success message with status 200 if successful
+5. Returns error information with status 500 if the operation fails
 
-- **Method**: POST
-- **Auth Required**: Yes (userId from req.user)
-- **Request Body**: `{ userId: "requester_user_id" }`
-- **Success Response**: 200 OK
-- **Error Response**: 500 Internal Server Error
-
-### Fetch Friends
-
+### `Fetch_Friends(req, res)`
 Retrieves the list of friends for the authenticated user.
 
-```javascript
-const Fetch_Friends = async(req, res) => {
-    const userid = req.user.userId;
-    // Returns list of friends
-}
-```
+#### Parameters
+- `req` - Express request object containing the authenticated user information
+- `res` - Express response object
 
-- **Method**: GET
-- **Auth Required**: Yes (userId from req.user)
-- **Success Response**: 200 OK with array of friend objects
-- **Error Response**: 500 Internal Server Error
+#### Process Flow
+1. Extracts the user ID from the request object
+2. Calls `displayFriend(userid)` to retrieve the user's friends
+3. Returns the data in a JSON response with status 200 if successful
+4. Returns error information with status 500 if the operation fails
 
-### Remove Friend
+### `Remove_Friend(req, res)`
+Removes a user from the authenticated user's friends list.
 
-Removes a user from the authenticated user's friend list.
+#### Parameters
+- `req` - Express request object containing the authenticated user ID and friend's user ID
+- `res` - Express response object
 
-```javascript
-const Remove_Friend = async(req, res) => {
-    const user1id = req.user.userId;
-    const user2id = req.body.userId;
-    // Removes friend relationship
-}
-```
+#### Process Flow
+1. Extracts the user ID from the request object
+2. Extracts the friend's user ID from the request body
+3. Calls `removeFriend(user1id, user2id)` to remove the friendship
+4. Returns a success message with status 200 if successful
+5. Returns error information with status 500 if the operation fails
 
-- **Method**: POST
-- **Auth Required**: Yes (userId from req.user)
-- **Request Body**: `{ userId: "friend_user_id" }`
-- **Success Response**: 200 OK
-- **Error Response**: 500 Internal Server Error
+## Dependencies
+The controller depends on the following functions imported from "../config/db_fun":
+- `findUsers` - Retrieves potential friends
+- `addFriend` - Creates a friend request
+- `showFriendreq` - Retrieves pending friend requests
+- `acceptFriend` - Accepts a friend request
+- `rejectFriend` - Rejects a friend request
+- `displayFriend` - Retrieves the user's friends
+- `removeFriend` - Removes a friendship
 
 ## Error Handling
+- Each function includes dedicated error handling
+- All errors are logged to the console with relevant user IDs for context
+- Errors return a 500 status code with descriptive messages
 
-All endpoints include error handling with:
-- Console logging of errors
-- Appropriate HTTP status codes
-- Error messages in response body
-
-## Module Exports
-
-```javascript
-module.exports = { 
-    Get_Users,
-    Send_FriendReq,
-    Show_FriendReq,
-    Accept_FriendReq,
-    Reject_FriendReq,
-    Fetch_Friends,
-    Remove_Friend,
-}
-```
+## Export
+The file exports all seven friend management functions.

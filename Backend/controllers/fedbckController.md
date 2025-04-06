@@ -1,58 +1,53 @@
-# Feedback Controller
-
-This module handles the API endpoint for saving user feedback to the database.
+# Feedback Controller Documentation
 
 ## Overview
-
-The `save_feedback` controller receives feedback data submitted by users, validates it, and stores it in the database using the `giveFeedback` function from the database configuration.
+This controller file manages the submission of user feedback to the database.
 
 ## Functions
 
-### save_feedback
-
-Processes incoming feedback submissions.
-
-```javascript
-const save_feedback = async (req, res) => {
-  try {
-    const data = req.body
-    if (!data) {
-      return res.status(400).json({ message: 'Please enter feedback' });
-    }
-    
-    await giveFeedback(data.fedbck);
-    
-    res.status(201).json({ message: "Feedback submitted successfully!"});
-    
-  } catch (error) {
-    console.error("Error sending Feedback:", error);
-    res.status(500).json({ message: "Error sending Feedback:", error: error.message });
-  }
-};
-```
+### `save_feedback(req, res)`
+An asynchronous controller function that processes and saves user feedback.
 
 #### Parameters
+- `req` - Express request object containing the feedback data in the request body
+- `res` - Express response object used to return the operation status
 
-- `req`: The HTTP request object containing the feedback data in the request body
-- `res`: The HTTP response object used to send back status and messages
+#### Process Flow
+1. Extracts the feedback data from the request body
+2. Validates that feedback data is present
+3. Calls `giveFeedback(data.fedbck)` to save the feedback to the database
+4. Returns a success message with status 201 if successful
+5. Returns error information with status 400 or 500 if the operation fails
 
-#### Process
+#### Response Format
+- Success (201):
+  ```json
+  {
+    "message": "Feedback submitted successfully!"
+  }
+  ```
+- Validation Error (400):
+  ```json
+  {
+    "message": "Please enter feedback"
+  }
+  ```
+- Server Error (500):
+  ```json
+  {
+    "message": "Error sending Feedback:",
+    "error": "[error message]"
+  }
+  ```
 
-1. Extracts feedback data from request body
-2. Validates that data exists
-3. Calls the `giveFeedback` database function to store the feedback
-4. Returns appropriate success or error responses
-
-#### Response Codes
-
-- `201`: Feedback successfully submitted
-- `400`: Missing feedback data
-- `500`: Server error during processing
+#### Error Handling
+- Checks for missing feedback data and returns a 400 status code
+- Catches any errors during database operations and returns a 500 status code
+- Logs detailed error information to the console
 
 ## Dependencies
+The controller depends on the following function imported from "../config/db_fun":
+- `giveFeedback` - Saves user feedback to the database
 
-- `giveFeedback`: Database function imported from "../config/db_fun"
-
-## Exports
-
-- `save_feedback`: The feedback controller function
+## Export
+The file exports an object containing the `save_feedback` function.

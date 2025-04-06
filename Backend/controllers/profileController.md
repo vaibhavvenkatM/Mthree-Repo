@@ -1,86 +1,52 @@
 # Profile Controller Documentation
 
 ## Overview
+The `profileController.js` file contains functionality for retrieving user profile data. It exports a single controller function that aggregates various profile-related information.
 
-This module contains the `getProfile` controller function that aggregates user profile data from multiple sources. The controller fetches various profile metrics and information in parallel to optimize performance.
+## Functions
 
-## Function: `getProfile`
+### `getProfile(req, res)`
+An asynchronous controller function that fetches and returns profile data for the authenticated user.
 
-Asynchronously retrieves a comprehensive set of profile data for the authenticated user.
+#### Parameters
+- `req` - Express request object containing the authenticated user information
+- `res` - Express response object used to return the data or error response
 
-### Dependencies
-
-```javascript
-const { 
-    PiechartResult,
-    basicinfo,
-    CountMatch,
-    dailystreak,
-    longeststreak
-} = require("../config/profile_fun");
-```
-
-### Parameters
-
-- `req`: Express request object containing user authentication data
-- `res`: Express response object used to send the data back to the client
-
-### Data Structure
-
-The function returns a data object with the following structure:
-
-```javascript
-let data = {
-    PiechartResult_data: [],    // Chart data visualization 
-    CountMatch_data: [],        // Match statistics
-    basicinfo_data: [],         // User profile information
-    dailystreak_data: 1,        // Current daily streak count
-    longeststreak_data: 1       // Longest achieved streak count
-};
-```
-
-### Implementation Details
-
-The function:
+#### Process Flow
 1. Extracts the user ID from the request object
-2. Initializes a data structure to hold the results
-3. Uses `Promise.all()` to execute all data fetching operations in parallel for improved performance
-4. Handles errors by identifying which specific operation failed
-5. Returns the aggregated data as a JSON response with HTTP status 200 on success
-6. Returns an error message with HTTP status 500 on failure
+2. Initializes a data structure to hold profile information
+3. Uses `Promise.all` to concurrently fetch different profile data components:
+   - Pie chart data (`PiechartResult`)
+   - Match count data (`CountMatch`)
+   - Basic user information (`basicinfo`)
+   - Daily streak information (`dailystreak`)
+   - Longest streak information (`longeststreak`)
+4. Returns all collected data in a JSON response with status 200 if successful
+5. Returns appropriate error information with status 500 if any data fetch fails
 
-### Error Handling
-
-The function implements comprehensive error handling that:
-- Identifies which specific data fetching operation failed
-- Logs detailed error information to the console
-- Returns a meaningful error response to the client
-
-### Response Format
-
-#### Success (HTTP 200)
+#### Response Format
 ```json
 {
-    "PiechartResult_data": [...],
-    "CountMatch_data": [...],
-    "basicinfo_data": [...],
-    "dailystreak_data": 1,
-    "longeststreak_data": 1
+  "PiechartResult_data": [],
+  "CountMatch_data": [],
+  "basicinfo_data": [],
+  "dailystreak_data": 1,
+  "longeststreak_data": 1
 }
 ```
 
-#### Error (HTTP 500)
-```json
-{
-    "message": "Error fetching [source] data",
-    "error": "Detailed error message"
-}
-```
+#### Error Handling
+- Each promise is wrapped with individual error handlers to identify which function failed
+- Errors include the source of the failure and the original error message
+- All errors are logged to the console with user ID context
 
-## Usage
+## Dependencies
+The controller depends on the following functions imported from "../config/profile_fun":
+- `PiechartResult` - Retrieves data for generating pie charts
+- `basicinfo` - Retrieves basic user information
+- `CountMatch` - Retrieves match counting information
+- `dailystreak` - Retrieves information about the user's current streak
+- `longeststreak` - Retrieves information about the user's longest streak
 
-This controller is designed to be used as an Express route handler, typically with authentication middleware:
-
-```javascript
-router.get('/profile', authMiddleware, profileController.getProfile);
-```
+## Export
+The file exports an object containing the `getProfile` function.

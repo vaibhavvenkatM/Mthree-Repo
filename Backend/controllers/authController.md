@@ -1,78 +1,132 @@
-# Authentication Controller
+# Authentication Controller Documentation
 
-A Node.js authentication module that handles user signup and login operations using JWT (JSON Web Token) for authentication.
+## Overview
+This controller file manages user authentication, including user registration (signup) and login functionality. It implements secure password handling and JWT-based authentication.
 
 ## Dependencies
+- `bcryptjs` - For password hashing and comparison
+- `jsonwebtoken` - For generating and verifying JWT tokens
+- `dotenv` - For loading environment variables
+- Database functions from "../config/db_fun":
+  - `createUser` - Creates a new user in the database
+  - `findUserByUsername` - Retrieves user information by username
+  - `update_log_date` - Updates the user's last login date
 
-- bcryptjs: Password hashing library
-- jsonwebtoken: JWT implementation for token generation
-- dotenv: Environment variable management
-- Database functions from `../config/db_fun.js`
-
-## Environment Setup
-
-The controller uses a JWT secret key from environment variables:
-
-```javascript
-const SECRET_KEY = process.env.JWT_SECRET || "needs_to_be_changed";
-```
-
-> **Important**: Ensure you set a secure `JWT_SECRET` in your `.env` file in production.
+## Configuration
+- Uses JWT_SECRET from environment variables (with fallback)
+- JWT tokens expire in 1 hour
 
 ## Functions
 
-### Signup
+### `signup(req, res)`
+Handles user registration by creating new user accounts.
 
-Registers a new user in the system.
+#### Parameters
+- `req` - Express request object containing registration data in the request body:
+  - `username` - User's desired username
+  - `email` - User's email address
+  - `password` - User's password
+- `res` - Express response object used to return the operation status
 
-```javascript
-signup(req, res)
-```
+#### Process Flow
+1. Extracts user registration data from the request body
+2. Validates that all required fields are present
+3. Checks if a user with the same username already exists
+4. Hashes the password using bcrypt (with salt factor 10)
+5. Creates a new user record with the hashed password
+6. Returns success message and user information on success
+7. Returns error information if the operation fails
 
-**Request Body Parameters:**
-- `username`: User's unique identifier
-- `email`: User's email address
-- `password`: Password for authentication
+#### Response Format
+- Success (201):
+  ```json
+  {
+    "message": "User registered successfully!",
+    "user": "[user data]"
+  }
+  ```
+- Validation Error (400):
+  ```json
+  {
+    "message": "All fields are required"
+  }
+  ```
+- Duplicate User Error (400):
+  ```json
+  {
+    "message": "User already exists!"
+  }
+  ```
+- Server Error (500):
+  ```json
+  {
+    "message": "Error registering user",
+    "error": "[error details]"
+  }
+  ```
 
-**Process:**
-1. Validates all required fields are present
-2. Checks if username already exists in the database
-3. Hashes the password using bcrypt (10 salt rounds)
-4. Creates new user record in the database
-5. Returns success message and user data
+### `login(req, res)`
+Authenticates users and provides JWT tokens for authorized access.
 
-**Response:**
-- 201: User registered successfully
-- 400: Missing fields or user already exists
-- 500: Server error
+#### Parameters
+- `req` - Express request object containing login credentials in the request body:
+  - `username` - User's username
+  - `password` - User's password
+- `res` - Express response object used to return the authentication result
 
-### Login
+#### Process Flow
+1. Extracts login credentials from the request body
+2. Validates that all required fields are present
+3. Retrieves user information based on the username
+4. Compares the provided password with the stored hash
+5. Generates a JWT token containing user identifier information
+6. Updates the user's last login date
+7. Returns success message, token, and limited user information
+8. Returns error information if authentication fails
 
-Authenticates a user and provides a JWT token.
+#### Response Format
+- Success (200):
+  ```json
+  {
+    "message": "Login successful!",
+    "token": "[JWT token]",
+    "user": {
+      "username": "[username]",
+      "email": "[email]"
+    }
+  }
+  ```
+- Validation Error (400):
+  ```json
+  {
+    "message": "All fields are required"
+  }
+  ```
+- User Not Found (400):
+  ```json
+  {
+    "message": "User not found!"
+  }
+  ```
+- Invalid Password (400):
+  ```json
+  {
+    "message": "Invalid credentials!"
+  }
+  ```
+- Server Error (500):
+  ```json
+  {
+    "message": "Error logging in",
+    "error": "[error details]"
+  }
+  ```
 
-```javascript
-login(req, res)
-```
+## Security Features
+- Password hashing using bcrypt
+- JWT-based authentication
+- Limited user information in responses (no password exposure)
+- Environment variable-based secret key configuration
 
-**Request Body Parameters:**
-- `username`: User's identifier
-- `password`: User's password
-
-**Process:**
-1. Validates all required fields are present
-2. Checks if the user exists in the database
-3. Compares provided password with stored hash
-4. Generates a JWT token with user ID and username
-5. Updates the user's last login date
-6. Returns token and user information
-
-**Response:**
-- 200: Login successful (includes token)
-- 400: Missing fields, user not found, or invalid credentials
-- 500: Server error
-
-## Security Considerations
-
-- Passwords are hashed using bcrypt with 10 rounds of salt
-- JWT tokens expire after 1 hour
-- Authentication errors return generic messages to prevent username enumeration
+## Export
+The file exports the `signup` and `login` functions.

@@ -1,84 +1,70 @@
-# Game Controller Module
+# Single Player Game Controller Documentation
 
-This module manages game sessions for single-player quiz games.
+This controller handles the single-player quiz game logic, including game session management, question assignment, and score saving.
 
-## Dependencies
+---
 
-```javascript
+## 🔧 Dependencies
+```js
 const { v4: uuidv4 } = require("uuid");
 const { saveSinglePlayerSession } = require("../config/db_fun");
 const { fetchTopicData } = require("./quesController");
 ```
 
-## Data Structures
+---
 
-- `userGameMap`: An object that maps user IDs to their active game details, including:
-  - `gameId`: Unique identifier for the game session
-  - `score`: Player's current score
-  - `timer`: Timeout reference for automatic game termination
+## 🧠 Global State
 
-## Core Functions
+### `userGameMap`
+Stores ongoing game session data for each user:
+- `gameId`: Unique ID for the session.
+- `score`: Player's score.
+- `timer`: Timeout object for automatic game end.
 
-### saveSession(gameId, playerId, playerScore)
+---
 
-Saves a completed game session to the database.
+## 💾 Database Interaction
 
-**Parameters:**
-- `gameId`: Unique identifier for the game
-- `playerId`: User ID of the player
-- `playerScore`: Final score achieved by the player
+### `saveSession(gameId, playerId, playerScore)`
+Saves the single-player game result into the database using `saveSinglePlayerSession`.
 
-**Behavior:**
-- Validates player ID before attempting to save
-- Logs success or failure of the database operation
+---
 
-### handleGameEnd(userId, gameId)
+## 🎮 Game Logic
 
-Handles the logic when a game session ends.
+### `handleGameEnd(userId, gameId)`
+Ends a game session:
+- Validates the game.
+- Saves the session.
+- Cleans up from `userGameMap`.
 
-**Parameters:**
-- `userId`: User ID of the player
-- `gameId`: Unique identifier for the game
+### `startGame(req, res)`
+Starts a new game:
+- Generates a game ID.
+- Picks a random topic.
+- Fetches questions.
+- Stores session in `userGameMap` with a 75-second timer.
+- Responds with game data.
 
-**Behavior:**
-- Verifies the game belongs to the user
-- Saves the final session data to the database
-- Cleans up game resources by removing the entry from `userGameMap`
-- Logs completion of the game cleanup
+### `endGame(req, res)`
+Manually ends a game session:
+- Validates the session.
+- Updates the score.
+- Clears timeout and ends game.
 
-### startGame(req, res)
+---
 
-Initiates a new game session for a user.
+## ⚙️ HTTP Endpoints
 
-**Parameters:**
-- `req`: Express request object containing user authentication
-- `res`: Express response object for sending back game data
+- **`POST /startGame`** — Starts a new game for the user.
+- **`POST /endGame`** — Ends an ongoing game and saves the score.
 
-**Behavior:**
-- Generates a unique game ID
-- Selects a random topic (ID 1-5)
-- Fetches questions for the selected topic
-- Checks if the user is already in an active game
-- Sets up a 75-second game timer
-- Returns game details, questions, and topic information to the client
+---
 
-### endGame(req, res)
-
-Ends a game session manually before the timer expires.
-
-**Parameters:**
-- `req`: Express request object containing user authentication and game details
-- `res`: Express response object for sending confirmation
-
-**Behavior:**
-- Validates the game session belongs to the requesting user
-- Updates the final score
-- Cancels the automatic timeout
-- Cleans up game resources
-- Sends success confirmation to the client
-
-## Module Exports
-
-```javascript
-module.exports = { startGame, endGame };
+## 📦 Exported Functions
+```js
+module.exports = {
+  startGame,
+  endGame
+};
 ```

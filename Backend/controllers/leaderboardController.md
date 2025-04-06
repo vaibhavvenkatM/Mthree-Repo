@@ -1,49 +1,45 @@
 # Leaderboard Controller Documentation
 
 ## Overview
-This module provides functionality to fetch and return leaderboard data for both single-player and two-player game modes.
+This controller file manages the retrieval of leaderboard data for both single-player and two-player game modes.
 
 ## Functions
 
 ### `get_leaderBoard(req, res)`
-Fetches and returns leaderboard data from the database.
-
-#### Description
-This asynchronous function retrieves leaderboard data for both single-player and two-player modes. It handles proper error responses and provides appropriate HTTP status codes based on the operation outcome.
+An asynchronous controller function that fetches leaderboard data from the database and returns it in a structured format.
 
 #### Parameters
 - `req` - Express request object
-- `res` - Express response object
+- `res` - Express response object used to return the data or error response
 
-#### Returns
-- `200 OK` - Returns a JSON object containing:
-  - `message` - Success message
-  - `leaderboard1` - Array of single-player leaderboard entries (empty array if no data)
-  - `leaderboard2` - Array of two-player leaderboard entries (empty array if no data)
-- `500 Internal Server Error` - If database operation fails, returns:
-  - `message` - Error description
-  - `error` - Detailed error message
+#### Process Flow
+1. Calls `getSinglePlayerLeaderboard()` to retrieve data for the single-player leaderboard
+2. Calls `getTwoPlayerLeaderboard()` to retrieve data for the two-player leaderboard
+3. Returns both sets of data in a JSON response with status 200 if successful
+4. Returns error information with status 500 if database operations fail
 
-#### Dependencies
-- `getSinglePlayerLeaderboard()` - Function to retrieve single-player leaderboard data
-- `getTwoPlayerLeaderboard()` - Function to retrieve two-player leaderboard data
-
-## Example Response
+#### Response Format
 ```json
 {
   "message": "Leaderboard fetched successfully!",
-  "leaderboard1": [
-    // Single-player leaderboard entries
-  ],
-  "leaderboard2": [
-    // Two-player leaderboard entries
-  ]
+  "leaderboard1": [], // Single-player leaderboard data
+  "leaderboard2": []  // Two-player leaderboard data
 }
 ```
 
-## Error Handling
-The controller implements proper error handling with descriptive error messages and appropriate HTTP status codes.
+#### Error Handling
+- Catches any errors during database operations
+- Logs detailed error information to the console
+- Returns a 500 status code with error message to the client
+
+## Dependencies
+The controller depends on the following functions imported from "../config/db_fun":
+- `getSinglePlayerLeaderboard` - Retrieves leaderboard data for single-player mode
+- `getTwoPlayerLeaderboard` - Retrieves leaderboard data for two-player mode
 
 ## Notes
-- The controller ensures empty arrays are returned rather than null values when no data is found
-- Debug logging is commented out in the production code
+- Contains commented debug logging that is marked for future removal
+- Returns empty arrays instead of null when no leaderboard data is available
+
+## Export
+The file exports an object containing the `get_leaderBoard` function.

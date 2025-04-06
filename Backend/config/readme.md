@@ -1,118 +1,151 @@
-# Quiz Application
+# Database Module Documentation
 
-A robust multiplayer quiz platform with social features, user profiles, and leaderboards.
+## 1. Database Connection (`db.js`)
 
+### Overview
+This module establishes and maintains a connection to the PostgreSQL database.
 
-## 📋 Overview
+### Dependencies
+- `postgres`: PostgreSQL client for Node.js
+- `dotenv`: For loading environment variables
 
-This application is a feature-rich quiz platform that supports both single-player and two-player modes. Users can create accounts, maintain profiles, participate in quiz challenges, create their own questions, and connect with friends.
+### Configuration
+The module requires a `DATABASE_URL` environment variable to be set in the `.env` file.
 
-## ✨ Features
+### Functions
 
-- **User Authentication**: Secure login and registration system
-- **Multiple Game Modes**:
-  - Single-player quiz challenges
-  - Two-player competitive mode
-- **Social Features**:
-  - Friend requests and management
-  - Challenge friends to quiz battles
-- **Leaderboards**: Track top performers in both game modes
-- **Custom Questions**: Create and share your own challenge questions
-- **User Profiles**:
-  - Performance statistics
-  - Daily and longest streaks
-  - Match history and results visualization
+#### `checkConnection()`
+Validates the database connection by executing a simple query.
 
-## 🔧 Technical Architecture
+**Returns:**
+- Logs success or failure message to the console
 
-The application is built with a PostgreSQL database backend with a Node.js server layer:
-
-### Database Connection
+### Usage Example
 ```javascript
-// Database connection is secured via environment variables
-const postgres = pg(process.env.DATABASE_URL, {
-    ssl: "require", 
+const { postgres, checkConnection } = require('./path/to/db');
+
+// Check database connection on server startup
+(async () => {
+  await checkConnection();
+})();
+```
+
+## 2. Database Functions (`db_fun.js`)
+
+### Overview
+This module provides functions to interact with the database, including user management, quiz functionality, and social features.
+
+### Dependencies
+- Local `db.js` module
+
+### User Management Functions
+
+#### `createUser(username, email, hashedPassword)`
+Creates a new user in the database.
+
+#### `findUserByUsername(username)`
+Retrieves user information by username.
+
+#### `update_log_date(userid, date)`
+Updates the last login date for a user.
+
+### Quiz & Game Functions
+
+#### `getTopicById(topicId)`
+Retrieves a topic by its ID.
+
+#### `getQuestionsById(topicId)`
+Retrieves questions for a specific topic.
+
+#### `saveChallenge(userid, que, qo1, qo2, qo3, qo4, qans)`
+Saves a new challenge question created by a user.
+
+#### `getChallenge()`
+Retrieves all challenge questions.
+
+#### `getChallengebyPalyer(userid)`
+Retrieves challenges created by a specific user.
+
+### Leaderboard Functions
+
+#### `getSinglePlayerLeaderboard()`
+Retrieves the leaderboard for single-player games.
+
+#### `getTwoPlayerLeaderboard()`
+Retrieves the leaderboard for two-player games.
+
+### Game Session Functions
+
+#### `saveSinglePlayerSession(gameId, playerid, result)`
+Saves the result of a single-player game session.
+
+#### `saveTwoPlayerSession(gameId, player1, player2, result)`
+Saves the result of a two-player game session.
+
+### Social Features Functions
+
+#### `findUsers(userid)`
+Finds users that can be added as friends.
+
+#### `addFriend(userid1, userid2)`
+Sends a friend request to another user.
+
+#### `showFriendreq(userid1)`
+Retrieves friend requests for a user.
+
+#### `acceptFriend(userid1, userid2)`
+Accepts a friend request.
+
+#### `rejectFriend(userid1, userid2)`
+Rejects a friend request.
+
+#### `displayFriend(userid1)`
+Retrieves a user's friends list.
+
+#### `removeFriend(userid1, userid2)`
+Removes a friend relationship.
+
+#### `giveFeedback(fedbck)`
+Saves user feedback.
+
+## 3. Profile Functions (`profile_fun.js`)
+
+### Overview
+This module provides functions to retrieve user profile information and statistics.
+
+### Dependencies
+- Local `db.js` module
+
+### Functions
+
+#### `PiechartResult(userid)`
+Retrieves data for generating a pie chart of user results.
+
+#### `CountMatch(userid)`
+Retrieves the count of matches played by a user.
+
+#### `basicinfo(userid)`
+Retrieves basic profile information for a user.
+
+#### `dailystreak(userid)`
+Retrieves a user's current daily streak information.
+
+#### `longeststreak(userid)`
+Retrieves a user's longest streak information.
+
+### Usage Example
+```javascript
+const { basicinfo, PiechartResult } = require('./path/to/profile_fun');
+
+app.get('/api/profile/:userId', authenticateUser, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const basicInfo = await basicinfo(userId);
+    const chartData = await PiechartResult(userId);
+    
+    res.json({ basicInfo, chartData });
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving profile data" });
+  }
 });
 ```
-
-### Core Functionality
-
-- **User Management**: Registration, authentication, and profile maintenance
-- **Quiz System**: Topic-based questions with multiple-choice options
-- **Game Sessions**: Recording and tracking of game results
-- **Social Network**: Friend management system with requests and connections
-- **Analytics**: Performance tracking and visualization
-
-## 📊 Data Visualization
-
-The application includes comprehensive profile analytics:
-
-- Pie charts for quiz result summaries
-- Daily and longest streaks tracking
-- Match count statistics
-- Performance history
-
-## 🤝 Social Features
-
-Users can:
-- Find and add friends
-- Send friend requests
-- Accept or reject incoming requests
-- Remove existing connections
-- See friends' performance statistics
-
-## 📱 Usage Examples
-
-### Creating a New User
-
-```javascript
-const newUser = await createUser("username", "email@example.com", "hashedPassword");
-```
-
-### Retrieving Leaderboard Data
-
-```javascript
-// For single-player mode
-const singlePlayerLeaders = await getSinglePlayerLeaderboard();
-
-// For two-player mode
-const twoPlayerLeaders = await getTwoPlayerLeaderboard();
-```
-
-### Managing Friend Connections
-
-```javascript
-// Send a friend request
-await addFriend(currentUserId, targetUserId);
-
-// Accept a request
-await acceptFriend(requesterId, currentUserId);
-```
-
-## 🛠️ Setup and Installation
-
-1. Clone the repository
-2. Create a `.env` file with your `DATABASE_URL`
-3. Install dependencies:
-   ```
-   npm install
-   ```
-4. Verify database connection:
-   ```javascript
-   const { checkConnection } = require("./db");
-   checkConnection();
-   ```
-
-## 🔒 Environment Variables
-
-The application requires the following environment variable:
-- `DATABASE_URL`: Your PostgreSQL connection string
-
-## 🤔 Feedback
-
-The application includes a feedback system for users to provide suggestions and report issues:
-
-```javascript
-await giveFeedback("Your feedback message");
-```
-
