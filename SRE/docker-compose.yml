@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  backend:
+    image: backend:latest
+    container_name: quiz-backend
+    ports:
+      - "5000:5000"
+      
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus      #imp
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    
+
+  loki:
+    image: grafana/loki
+    container_name: loki    #imp
+    ports:
+      - "3100:3100"
+    
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana         #imp
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/dashboards:/etc/grafana/dashboards
