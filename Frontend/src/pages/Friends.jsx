@@ -5,7 +5,7 @@ import Logo from "../images/swords.jpg";
 import "../styles/Friends.css";
 
 const Friends = ({ userId }) => {
-    const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [isSidebarOpen, setSidebarOpen] = useState(false);  
     
     const [friends, setFriends] = useState([]);
     const [searchFriends, setSearchFriends] = useState("");
@@ -23,7 +23,7 @@ const Friends = ({ userId }) => {
     
     const location = useLocation();
 
-    useEffect(() => {
+    useEffect(() => {       //fetch initial data
         fetchData();
     }, []);
 
@@ -54,6 +54,8 @@ const Friends = ({ userId }) => {
             setIsLoading(false);
         }
     };
+
+    // Close sidebar when the route changes.
 
     useEffect(() => {
         setSidebarOpen(false);
