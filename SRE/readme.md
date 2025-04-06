@@ -1,166 +1,140 @@
-# Quiz Application Kubernetes Monitoring Setup
+# Site Reliability Engineering (SRE) Monitoring Stack
 
-This repository contains the necessary Kubernetes configuration files to deploy a quiz application with comprehensive monitoring using Prometheus, Grafana, and Loki.
+A complete observability and auto-scaling solution for microservices running on Kubernetes, built with industry-standard tools: **Prometheus**, **Grafana**, **Loki**, and **HPA**.
 
-## Architecture Overview
+![SRE Monitoring Banner](https://via.placeholder.com/800x200?text=SRE+Monitoring+Stack)
 
-The setup consists of the following components:
-
-- **Quiz Backend**: A containerized API service
-- **Prometheus**: Metrics collection and storage
-- **Grafana**: Visualization dashboard for metrics
-- **Loki**: Log aggregation system
-- **Horizontal Pod Autoscaler**: For automatic scaling based on load
-
-## Prerequisites
-
-- Docker
-- Minikube
-- kubectl
-
-## Directory Structure
+## 📦 Project Structure
 
 ```
-.
-├── backend.yaml        # Quiz backend deployment and service
-├── grafana.yaml        # Grafana deployment, service, and datasource configuration
-├── hpa.yaml            # Horizontal Pod Autoscaler for quiz backend
-├── loki.yaml           # Loki deployment and service
-├── prometheus.yaml     # Prometheus deployment, service, and config
-└── steps.md            # Setup instructions
+SRE/
+├── backend.yaml                 # Backend service manifest
+├── frontend.yaml                # Frontend service manifest
+├── docker-compose.yml           # Local stack: Prometheus, Grafana, Loki
+├── hpa.yaml                     # Horizontal Pod Autoscaler config
+├── prometheus.yaml              # Prometheus deployment in K8s
+├── grafana.yaml                 # Grafana deployment in K8s
+├── loki.yaml                    # Loki deployment in K8s
+├── steps.md                     # General deployment guide
+├── grafana/
+│   └── provisioning/
+│       ├── dashboards/dashboard.yml     # Auto-loaded dashboards
+│       └── datasources/datasource.yml  # Prometheus & Loki datasources
+├── K8/                          # Kubernetes-specific resources
+│   ├── *.yaml
+│   └── steps.md
+├── loki/loki.md                 # Log query reference & Loki architecture
+└── prometheus/prometheus.yml    # Scrape configuration for Prometheus
 ```
 
-## Setup Instructions
+## 🚀 Getting Started
 
-### 1. Build the Backend Image
+### 🔧 Prerequisites
 
-Navigate to the backend directory and build the Docker image:
+- **Docker** - Local containerization
+- **Docker Compose** - Compose stack for local observability tools
+- **Kubernetes** - Cluster to deploy services in real environments
+- **kubectl** - CLI to interact with your Kubernetes cluster
+
+You should also have a basic understanding of:
+- Microservices architecture
+- Metrics, logs, and observability best practices
+
+### 🧪 Local Development Setup (Docker Compose)
+
+Spin up Prometheus, Grafana, and Loki locally:
 
 ```bash
-cd <path-to-backend>
-docker build -t backend .
+docker-compose up -d
 ```
 
-### 2. Pull Required Docker Images
+Access your tools:
+- **Prometheus**: http://localhost:9090
+- **Grafana**: http://localhost:3000 (Login: `admin` / `admin`)
+
+Grafana will auto-load dashboards and connect to Prometheus & Loki data sources.
+
+### ☁️ Kubernetes Deployment
+
+Deploy each component in this order:
 
 ```bash
-docker pull prom/prometheus
-docker pull grafana/grafana
-docker pull grafana/loki
+kubectl apply -f K8/backend.yaml
+kubectl apply -f K8/frontend.yaml
+kubectl apply -f K8/prometheus.yaml
+kubectl apply -f K8/loki.yaml
+kubectl apply -f K8/grafana.yaml
+kubectl apply -f K8/hpa.yaml
 ```
 
-### 3. Start Minikube
-
+To verify your deployment:
 ```bash
-minikube start
+kubectl get pods
+kubectl get svc
 ```
 
-### 4. Load Images into Minikube
-
-If you encounter issues with image pulling:
-
-```bash
-minikube image load prom/prometheus
-minikube image load grafana/loki
-minikube image load grafana/grafana
-minikube image load backend:latest
-```
-
-### 5. Deploy the Applications
-
-Apply all Kubernetes configurations:
-
-```bash
-kubectl apply -f prometheus.yaml
-kubectl apply -f loki.yaml
-kubectl apply -f grafana.yaml
-kubectl apply -f hpa.yaml
-kubectl apply -f backend.yaml
-```
-
-Alternatively, you can apply all configurations at once:
-
-```bash
-kubectl apply -f .
-```
-
-### 6. Access the Applications
-
-Set up port forwarding to access the applications:
-
-```bash
-kubectl port-forward svc/grafana 3000:3000
-```
-
-You can also set up port forwarding for other services if needed:
-
-```bash
-kubectl port-forward svc/prometheus 9090:9090
-kubectl port-forward svc/loki 3100:3100
-kubectl port-forward svc/quiz-backend 5000:5000
-```
-
-### 7. Monitor Deployment Status
-
-Open the Minikube dashboard to view the deployment status:
-
-```bash
-minikube dashboard
-```
-
-## Component Details
-
-### Quiz Backend
-
-The backend service is deployed with resource limits:
-- 100m CPU request
-- 200m CPU limit
-- Exposed on port 5000
-
-### Horizontal Pod Autoscaler (HPA)
-
-The backend is configured with autoscaling capabilities:
-- Minimum replicas: 1
-- Maximum replicas: 5
-- Target CPU utilization: 100%
+## 📊 Monitoring & Observability Stack
 
 ### Prometheus
 
-Prometheus collects metrics from the quiz backend:
-- Scrapes metrics every 5 seconds
-- Accessible at NodePort 30090
-- Configured to monitor the quiz backend
+![Prometheus](https://via.placeholder.com/700x150?text=Prometheus)
 
-### Loki
-
-Loki aggregates logs from all services:
-- Accessible at NodePort 30100
+- Pulls metrics from microservices and Kubernetes nodes
+- Configured using `prometheus.yml`
+- Supports useful exporters:
+  - **node-exporter** - Hardware and OS metrics
+  - **kube-state-metrics** - Kubernetes object metrics
+  - Custom service metrics via `/metrics` endpoint
 
 ### Grafana
 
-Grafana provides visualization for metrics and logs:
-- Preconfigured with Prometheus, Loki, and PostgreSQL datasources
-- Accessible at NodePort 30300
-- Default credentials:
-  - Username: admin
-  - Password: admin
+![Grafana](https://via.placeholder.com/700x150?text=Grafana)
 
-## PostgreSQL Configuration
+- Visualizes metrics and logs from Prometheus and Loki
+- Pre-loaded dashboard configurations
+- Datasources auto-provisioned for instant insights
+- Supports alerting based on metrics thresholds
 
-The Grafana deployment includes a connection to a PostgreSQL database:
-- Host: aws-0-ap-south-1.pooler.supabase.com:6543
-- Database: postgres
-- SSL mode is disabled
+### Loki
 
-## Coming Soon
+![Loki](https://via.placeholder.com/700x150?text=Loki)
 
-Frontend deployment configurations will be added in future updates.
+- Lightweight, high-performance logging system
+- Aggregates logs using labels (pod, job, namespace)
+- Pairs seamlessly with Grafana's Explore feature
+- Query logs with LogQL (see `loki.md` for examples)
 
-## Notes
+### HPA (Horizontal Pod Autoscaler)
 
-- This setup is designed for development and testing purposes.
-- For production deployments, consider:
-  - Using Secrets instead of ConfigMaps for sensitive information
-  - Setting up persistent storage for Prometheus and Grafana
-  - Implementing proper security measures
-  - Adjusting resource limits based on actual usage patterns
+- Enables services to scale dynamically based on:
+  - CPU usage
+  - Memory consumption
+  - Custom metrics (via Prometheus adapter)
+- Prevents over-provisioning while ensuring high availability
+
+## 📥 Download Options
+
+### Option 1: Download ZIP
+
+1. Click the green **"Code"** button (top right on GitHub)
+2. Select **"Download ZIP"**
+3. Extract the ZIP on your local machine
+
+### Option 2: Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/SRE.git
+cd SRE
+```
+
+## 🛠 Toolchain Overview
+
+| Tool         | Purpose                               |
+|--------------|---------------------------------------|
+| **Docker**   | Local container runtime               |
+| **Kubernetes** | Cluster orchestration                |
+| **Prometheus** | Metrics collection + alerting engine |
+| **Grafana**  | Dashboard and visualization frontend  |
+| **Loki**     | Centralized logging backend           |
+| **HPA**      | Auto-scaling workloads in Kubernetes  |
+
