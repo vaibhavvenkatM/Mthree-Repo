@@ -2,8 +2,6 @@
 
 A complete observability and auto-scaling solution for microservices running on Kubernetes, built with industry-standard tools: **Prometheus**, **Grafana**, **Loki**, and **HPA**.
 
-![SRE Monitoring Banner](https://via.placeholder.com/800x200?text=SRE+Monitoring+Stack)
-
 ## 📦 Project Structure
 
 ```
@@ -77,8 +75,6 @@ kubectl get svc
 
 ### Prometheus
 
-![Prometheus](https://via.placeholder.com/700x150?text=Prometheus)
-
 - Pulls metrics from microservices and Kubernetes nodes
 - Configured using `prometheus.yml`
 - Supports useful exporters:
@@ -88,8 +84,6 @@ kubectl get svc
 
 ### Grafana
 
-![Grafana](https://via.placeholder.com/700x150?text=Grafana)
-
 - Visualizes metrics and logs from Prometheus and Loki
 - Pre-loaded dashboard configurations
 - Datasources auto-provisioned for instant insights
@@ -97,7 +91,6 @@ kubectl get svc
 
 ### Loki
 
-![Loki](https://via.placeholder.com/700x150?text=Loki)
 
 - Lightweight, high-performance logging system
 - Aggregates logs using labels (pod, job, namespace)
