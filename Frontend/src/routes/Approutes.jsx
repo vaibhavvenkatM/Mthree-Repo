@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/Home.jsx';
 import Profile from '../pages/Profile.jsx';
@@ -19,28 +19,29 @@ const getCookie = () => {
   return localStorage.getItem("token");
 };
 
-const ping = async()=> {
-  const token = getCookie();
-  if(!token) return;
-  fetch("http://localhost:5000/ping", {
-    method: "GET",
-    headers: {
+const ping = async () => {
+  const token = getCookie(); // Assuming getCookie() retrieves the JWT
+  
+  if (!token) return;
+  
+  try {
+    const response = await fetch("http://localhost:5000/ping", {
+      method: "GET",
+      headers: {
         Authorization: `Bearer ${token}`,
-    },
-  })
-  .then(response => {
+      },
+    });
+    
     if (response.status === 401 || response.status === 403) {
-        console.log("Expired Token, clearing token...");
-        localStorage.removeItem("token"); // Remove token
-    }
-    else if (response.status === 200){
+      console.log("Expired or invalid token, clearing...");
+      localStorage.removeItem("token");
+    } else if (response.ok) {
       console.log("Token is valid");
     }
-  })
-  .catch(error => console.error("Fetch error:", error));
-}
-
-await ping();
+  } catch (error) {
+    console.error("Ping fetch error:", error);
+  }
+};
 
 const isAuthenticated = () => {
   return getCookie() !== null;
@@ -55,14 +56,22 @@ const ProtectedRoute = ({ children }) => {
   return isAuthenticated() ? children : <Navigate to="/login" replace />;
 };
 
+(async function() {
+  await ping();
+})();
+
 function Approutes() {
+  useEffect(() => {
+    ping();
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
         {/* Authentication Routes */}
         <Route path="/login" element={<PublicRoute><Login /> </PublicRoute>} />
         <Route path="/register" element={<PublicRoute><Registration /> </PublicRoute>} />
-
+        
         {/* Protected Routes */}
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/rules" element={<ProtectedRoute><Rules /></ProtectedRoute>} />
@@ -75,7 +84,7 @@ function Approutes() {
         <Route path="/challenge" element={<ProtectedRoute><Challenges /></ProtectedRoute>} />
         <Route path="/showchallenge" element={<ProtectedRoute><ChallengeDisplay /></ProtectedRoute>} />
         <Route path="/Feedback" element={<ProtectedRoute><Feedback/></ProtectedRoute>} />
-
+        
         {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

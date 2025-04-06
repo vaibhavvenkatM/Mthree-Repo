@@ -7,7 +7,6 @@
     bottom: 0;
     display: flex;
     flex-direction: column;
-    background-image: url("../images/background_queue.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -54,6 +53,9 @@
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
   }
   
   .message-styles {

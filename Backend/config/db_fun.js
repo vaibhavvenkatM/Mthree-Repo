@@ -17,6 +17,14 @@ const findUserByUsername = async (username) => {
     `;
 };
 
+const findUserByEmail = async (email) => {
+    return postgres`
+        SELECT * FROM users
+        WHERE email = ${email};
+    `;
+};
+
+// Function to Log LastLogin Date
 const update_log_date = async(userid,date)=>{
     await postgres`
         UPDATE lastlogin
@@ -25,7 +33,7 @@ const update_log_date = async(userid,date)=>{
     `
 }
 
-// Function to get Topic
+// Function to get TopicDetails
 const getTopicById = async (topicId) => {
     return postgres`
         SELECT * FROM topics
@@ -33,7 +41,7 @@ const getTopicById = async (topicId) => {
     `;
 }
 
-// Function to get Question
+// Function to get QuestionDetails
 const getQuestionsById = async (topicId) => {
     return postgres`
         SELECT * FROM queoptn
@@ -77,8 +85,7 @@ const saveTwoPlayerSession=async (gameId, player1, player2, result) =>{
     `;
 }
 
-//saving new qestions 
-
+//saving new Challenge
 const saveChallenge = async (userid,que,qo1,qo2,qo3,qo4,qans) =>{
     await postgres`
         INSERT INTO createchallenge (que, qo1,qo2,qo3,qo4,qans,userid) 
@@ -86,18 +93,21 @@ const saveChallenge = async (userid,que,qo1,qo2,qo3,qo4,qans) =>{
     `;
 }
 
+// Fetch existing Challenges
 const  getChallenge = async ()=>{
     return postgres`
         SELECT * FROM createchallenge ORDER BY created_at;
     `;
 }
 
-const  getChallengebyPalyer = async (userid)=>{
+// Fetch Challenege by a Player
+const  getChallengebyPlayer = async (userid)=>{
     return await postgres`
         SELECT * FROM createchallenge WHERE userid=${userid};
     `;
 }
 
+// Find Users to make them friend
 const findUsers = async (userid) => {
     return await postgres`
         SELECT u.id , u.username , uh.points
@@ -109,6 +119,7 @@ const findUsers = async (userid) => {
     `;
 };
 
+// Send friend req from user1 to user2
 const addFriend = async (userid1,userid2) =>{
     await postgres`
         INSERT INTO friendreq (user1id,user2id) 
@@ -121,6 +132,7 @@ const addFriend = async (userid1,userid2) =>{
     `;
 }
 
+// Show friend res for user
 const showFriendreq = async (userid1) =>{
     return await postgres`
         Select u.id , u.username 
@@ -130,6 +142,7 @@ const showFriendreq = async (userid1) =>{
     `;
 }
 
+// Accept Friend Req
 const acceptFriend = async (userid1,userid2) => {
     await postgres`
         INSERT INTO friend (user1id,user2id) 
@@ -155,6 +168,7 @@ const acceptFriend = async (userid1,userid2) => {
 `;
 }
 
+// User1 rejects Friend Req for user2
 const rejectFriend = async(userid1,userid2) =>{
     await postgres`
          DELETE FROM friendreq
@@ -167,6 +181,7 @@ const rejectFriend = async(userid1,userid2) =>{
     `;
 }
 
+// Fetch Friends
 const displayFriend = async (userid1) => {
     return await postgres`
         Select u.id, u.username, uh.points 
@@ -177,6 +192,7 @@ const displayFriend = async (userid1) => {
     `;
 }
 
+// Remove user2 from friend
 const removeFriend = async (userid1,userid2) =>{
     await postgres`
          DELETE FROM friend
@@ -199,6 +215,7 @@ const removeFriend = async (userid1,userid2) =>{
     `;
 }
 
+// Insert a Feedback
 const giveFeedback=async (fedbck) =>{
     await postgres`
         INSERT INTO feedback (fedbck) 
@@ -212,13 +229,14 @@ module.exports = {
     update_log_date,
     getTopicById,
     getQuestionsById,
+    findUserByEmail,
     getSinglePlayerLeaderboard,
     getTwoPlayerLeaderboard,
     saveSinglePlayerSession,
     saveTwoPlayerSession,
     saveChallenge,
     getChallenge,
-    getChallengebyPalyer,
+    getChallengebyPlayer,
     findUsers,
     addFriend,
     acceptFriend,
