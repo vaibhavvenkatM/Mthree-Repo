@@ -3,6 +3,7 @@
 ## Overview
 This file serves as the main entry point for the Quiz application backend. It configures the Express server, sets up Socket.IO for real-time communication, connects various routes, and initializes the database connection.
 
+
 ## File
 `server.js`
 
