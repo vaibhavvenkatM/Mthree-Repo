@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz App - SRE Observability Stack</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #2D3748;
+      margin: 40px;
+      line-height: 1.6;
+    }
+    .section {
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    h3 {
+      font-size: 20px;
+      margin-top: 30px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #E2E8F0;
+    }
+    thead {
+      background-color: #EDF2F7;
+    }
+    tbody tr:nth-child(odd) {
+      background-color: #F7FAFC;
+    }
+    code {
+      background-color: #F7FAFC;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+    }
+    pre {
+      background-color: #F1F1F1;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    hr {
+      margin: 30px 0;
+      border: none;
+      border-top: 1px solid #E2E8F0;
+    }
+  </style>
+</head>
+<body>
+  <div class="section">
+    <h2>🧠 Quiz App - SRE Observability Stack</h2>
+    <p>This project demonstrates how to integrate <strong>Site Reliability Engineering (SRE)</strong> practices in a Dockerized environment using:</p>
+    <ul>
+      <li><strong>Prometheus</strong> (metrics collection)</li>
+      <li><strong>Grafana</strong> (dashboard & visualization)</li>
+      <li><strong>Loki</strong> (logging)</li>
+      <li><strong>Custom backend/frontend</strong> (target services being monitored)</li>
+    </ul>
+
+    <hr>
+
+    <h2>📦 Overview</h2>
+    <p>This repository contains a full-stack quiz application enhanced with observability tools to monitor system health, logs, and metrics using <strong>Docker Compose</strong>.</p>
+
+    <h3>📁 Stack Components:</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Description</th>
+          <th>Port</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>backend</td>
+          <td>Quiz application backend (Node.js / TS)</td>
+          <td>5000</td>
+        </tr>
+        <tr>
+          <td>frontend</td>
+          <td>Frontend for the quiz application</td>
+          <td>5174</td>
+        </tr>
+        <tr>
+          <td>prometheus</td>
+          <td>Collects and scrapes metrics from backend</td>
+          <td>9090</td>
+        </tr>
+        <tr>
+          <td>loki</td>
+          <td>Collects logs for Grafana visualization</td>
+          <td>3100</td>
+        </tr>
+        <tr>
+          <td>grafana</td>
+          <td>Visualizes logs & metrics in customizable dashboards</td>
+          <td>3000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h2>🚀 Running the Project</h2>
+    <pre><code>docker-compose up --build</code></pre>
+    <p>Ensure that all required files (<code>prometheus.yml</code>, <code>dashboard.yml</code>, <code>datasources.yml</code>) and folders (<code>grafana/</code>, <code>prometheus/</code>) exist with proper paths.</p>
+
+    <hr>
+
+    <h2>🔍 SRE Breakdown</h2>
+
+    <h3>📊 1. Prometheus - Metrics Collection</h3>
+    <p>Prometheus scrapes metrics from the backend service every <strong>3 seconds</strong>, as defined in <code>prometheus.yml</code>:</p>
+    <pre><code>global:
+  scrape_interval: 3s
+
+scrape_configs:
+  - job_name: 'quiz-backend'
+    static_configs:
+      - targets: ['quiz-backend:5000']</code></pre>
+    <p>🔧 Prometheus is configured to look for metrics on the backend container’s port 5000. Make sure the backend exposes a <code>/metrics</code> endpoint (e.g., via <code>prom-client</code> in Node.js).</p>
+
+    <h3>📈 2. Grafana - Visualization</h3>
+    <p>Grafana is used to create dashboards to visualize both metrics and logs. It reads data from Prometheus and Loki using preconfigured datasources:</p>
+    <ul>
+      <li>Access Grafana at <code>http://localhost:3000</code></li>
+      <li>Default credentials: <code>admin / admin</code></li>
+      <li>Import dashboards from <code>grafana/dashboard.yml</code></li>
+    </ul>
+
+    <h3>📜 3. Loki - Logs Collection</h3>
+    <p>Loki collects logs from the backend container and allows querying via Grafana:</p>
+    <ul>
+      <li>Logs are forwarded using the <code>promtail</code> configuration</li>
+      <li>Grafana’s “Explore” tab can be used to filter logs</li>
+    </ul>
+
+    <hr>
+
+    <p>📘 This setup ensures complete observability into your app's health and performance, aligning with modern SRE best practices.</p>
+  </div>
+</body>
+</html>

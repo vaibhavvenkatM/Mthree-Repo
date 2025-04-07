@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> TEAM 2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7fafc;
+      margin: 0;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #2D3748;
+    }
+
+    header {
+      font-size: 32px;
+      font-weight: bold;
+      color: #2D3748;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .readme-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3B3FCB;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .readme-button:hover {
+      background-color: #2a2ea8;
+    }
+
+    .section {
+      max-width: 800px;
+      width: 100%;
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .section h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #1A202C;
+    }
+
+    .section p, .section li {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .section ul {
+      padding-left: 20px;
+    }
+
+    .members {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+    .member {
+      font-size: 16px;
+      color: #4A5568;
+      background-color: #EDF2F7;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>BATTLE OF QUIZ LORDS TEAM 2 </header>
+
+  <div class="section">
+    <h2>Our Team Members</h2>
+    <div class="members">
+      <div class="member">RHEA ROBHINSON</div>
+      <div class="member">BHOOMI KAUSHIK</div>
+      <div class="member">MEENAKSHI SHARMA</div>
+      <div class="member">BHAVESH PANEY</div>
+      <div class="member">MAYANK CHOWDHURY</div>
+      <div class="member">VAIBHAV VENKAT</div>
+      <div class="member">RAHUL PRASAD</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>About the Project</h2>
+    <p><strong>Battle of Quiz Lords</strong> is a dynamic and interactive quiz-based web application designed to provide users with a competitive yet fun learning experience. The platform enables users to engage in various quiz modes, supported by a robust, scalable backend infrastructure and modern DevOps practices.</p>
+  </div>
+
+  <!-- (Rest of your sections remain unchanged) -->
+
+  <div class="section">
+    <h2>Key Features</h2>
+    <ul>
+      <li>Solo Match</li>
+      <li>Multiplayer Match</li>
+      <li>Play Challenges</li>
+      <li>Create Challenges</li>
+      <li>Profile Management</li>
+      <li>Leaderboard</li>
+      <li>Friends System</li>
+      <li>Feedback Submission</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>System Architecture and Implementation</h2>
+    <h3>Frontend</h3>
+    <ul>
+      <li>Developed using Vite React, offering fast development and optimized builds.</li>
+      <li>Fully functional and deployed inside a Docker container for efficient delivery and scaling.</li>
+    </ul>
+
+    <h3>Backend</h3>
+    <ul>
+      <li>Developed and fully functional using Node.js and Express.js.</li>
+      <li>Handles all logic and API interactions.</li>
+      <li>Dockerized and deployed for easy scaling and deployment.</li>
+    </ul>
+
+    <h3>Database</h3>
+    <ul>
+      <li>Uses Supabase as a backend-as-a-service platform.</li>
+      <li>Built on PostgreSQL and serves as an open-source alternative to Firebase.</li>
+      <li>Chosen for its free tier, easy setup, and developer-friendly environment.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>DevOps and Site Reliability Engineering (SRE)</h2>
+    <h3>Containerization</h3>
+    <ul>
+      <li>Both frontend and backend are containerized using Docker.</li>
+      <li>Docker images are created and deployed efficiently.</li>
+    </ul>
+
+    <h3>Kubernetes</h3>
+    <ul>
+      <li>Used for managing Pods, Services, and Deployments.</li>
+      <li>Includes Horizontal Pod Autoscaling for dynamic load handling.</li>
+    </ul>
+
+    <h3>Monitoring and Observability</h3>
+    <ul>
+      <li><strong>Prometheus</strong>: Collects performance metrics and monitors server health.</li>
+      <li><strong>Grafana</strong>: Visualizes metrics with real-time dashboards, including DB monitoring.</li>
+      <li><strong>Loki</strong>: Centralized logging for debugging and tracking application events.</li>
+    </ul>
+
+    <h3>CI/CD</h3>
+    <ul>
+      <li><strong>Jenkins</strong>: Automates deployment process for the application.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Why We Chose This Project</h2>
+    <p>As a team of 7 passionate developers, we wanted to go beyond traditional project templates and build something from scratch—an application that challenged us technically, creatively, and collaboratively.</p>
+    <p>Our core motivation was to understand the end-to-end development process:</p>
+    <ul>
+      <li>From planning and UI/UX design</li>
+      <li>To backend logic, APIs, and database architecture</li>
+      <li>To real-world issues like user management, matchmaking, scaling, and monitoring</li>
+    </ul>
+    <p>We brainstormed many ideas but ultimately chose <strong>Battle of Quiz Lords</strong> because it offered the perfect blend of fun, competition, and learning. The competitive aspect makes it feel like a game while still being educational. It supports both casual play and serious competition, making it appealing to a broad audience.</p>
+    <p>The technical challenges — such as real-time multiplayer matchmaking, scoring, and system monitoring — gave us real insight into building a production-ready app. It allowed us to sharpen our full-stack skills and experience the full journey of software development.</p>
+  </div>
+
+  <a href="readme.html" class="readme-button">README</a>
+
+</body>
+</html>
