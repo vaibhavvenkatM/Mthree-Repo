@@ -7,6 +7,7 @@ This file serves as the main entry point for the Quiz application backend. It co
 ## File
 `server.js`
 
+
 ## Dependencies
 - `express`: Web server framework
 - `dotenv`: For loading environment variables
