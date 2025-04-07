@@ -22,14 +22,14 @@ services:
 
   loki:
     image: grafana/loki
-    container_name: loki    #imp
+    container_name: loki    # loki container
     ports:
       - "3100:3100"
     
 
   grafana:
     image: grafana/grafana
-    container_name: grafana         #imp
+    container_name: grafana         # grafana container
     ports:
       - "3000:3000"
     environment:
