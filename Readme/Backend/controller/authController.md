@@ -12,6 +12,7 @@ This controller file manages user authentication, including user registration (s
   - `findUserByUsername` - Retrieves user information by username
   - `update_log_date` - Updates the user's last login date
 
+
 ## Configuration
 - Uses JWT_SECRET from environment variables (with fallback)
 - JWT tokens expire in 1 hour
@@ -83,6 +84,7 @@ Authenticates users and provides JWT tokens for authorized access.
 6. Updates the user's last login date
 7. Returns success message, token, and limited user information
 8. Returns error information if authentication fails
+
 
 #### Response Format
 - Success (200):

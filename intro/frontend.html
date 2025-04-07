@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Frontend - README</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7fafc;
+      color: #2D3748;
+      padding: 40px;
+      line-height: 1.6;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      color: #1A202C;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-top: 30px;
+      border-bottom: 2px solid #CBD5E0;
+      padding-bottom: 5px;
+    }
+
+    code {
+      background-color: #EDF2F7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 15px;
+    }
+
+    pre {
+      background-color: #EDF2F7;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border: 1px solid #E2E8F0;
+    }
+
+    th {
+      background-color: #E2E8F0;
+    }
+
+    .code-label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Server Configuration Documentation</h1>
+
+  <h2>Overview</h2>
+  <p>This file serves as the main entry point for the Quiz application backend. It configures the Express server, sets up Socket.IO for real-time communication, connects various routes, and initializes the database connection.</p>
+
+  <h2>File</h2>
+  <p><code>server.js</code></p>
+
+  <h2>Dependencies</h2>
+  <ul>
+    <li><code>express</code>: Web server framework</li>
+    <li><code>dotenv</code>: For loading environment variables</li>
+    <li><code>http</code>: Node.js HTTP module for creating the server</li>
+    <li><code>cors</code>: Cross-Origin Resource Sharing middleware</li>
+    <li><code>socket.io</code>: Real-time communication library</li>
+  </ul>
+
+  <h2>Configuration</h2>
+  <p>The server utilizes environment variables through dotenv:</p>
+  <pre><code>PORT=5000  # Default port if not specified in environment</code></pre>
+
+  <h2>Server Setup</h2>
+  <ol>
+    <li>Creates an Express application</li>
+    <li>Sets up an HTTP server using the Express app</li>
+    <li>Configures Socket.IO with CORS settings to allow connections from any origin</li>
+    <li>Defines the port (from environment variables or default 5000)</li>
+  </ol>
+
+  <h2>Middleware</h2>
+  <ul>
+    <li><code>express.json()</code>: Parses JSON request bodies</li>
+    <li><code>cors</code>: Configured to allow requests from any origin with credentials</li>
+  </ul>
+
+  <h2>Socket.IO Integration</h2>
+  <ul>
+    <li>Socket.IO instance is stored in the Express app for controllers to access</li>
+    <li>Tracks player connections and disconnections</li>
+    <li>Sets up game end handlers for multiplayer functionality</li>
+  </ul>
+
+  <h2>Routes</h2>
+  <p>The server includes the following API routes:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Route Path</th>
+        <th>Module</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>/auth</code></td><td><code>authRoutes</code></td><td>User authentication</td></tr>
+      <tr><td><code>/leaderboard</code></td><td><code>leaderboardRoutes</code></td><td>Player rankings</td></tr>
+      <tr><td><code>/quiz1</code></td><td><code>quiz1Routes</code></td><td>Single-player quiz functionality</td></tr>
+      <tr><td><code>/quiz2</code></td><td><code>quiz2Routes</code></td><td>Multiplayer quiz functionality</td></tr>
+      <tr><td><code>/challenge</code></td><td><code>challengeRoutes</code></td><td>User-created challenges</td></tr>
+      <tr><td><code>/friend</code></td><td><code>friendRoutes</code></td><td>Friend system management</td></tr>
+      <tr><td><code>/profile</code></td><td><code>profileRouter</code></td><td>User profile data</td></tr>
+      <tr><td><code>/feedback</code></td><td><code>fedbckRoutes</code></td><td>User feedback submission</td></tr>
+      <tr><td><code>/ping</code></td><td><code>pingRoutes</code></td><td>Server health checks</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Server Initialization</h2>
+  <ol>
+    <li>Checks database connection before starting the server</li>
+    <li>If database connection is successful:
+      <ul>
+        <li>Starts server on the configured port</li>
+        <li>Logs success message</li>
+      </ul>
+    </li>
+    <li>If database connection fails:
+      <ul>
+        <li>Logs error message</li>
+        <li>Exits the process</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h2>Shutdown Handling</h2>
+  <p>Gracefully handles server shutdown on SIGINT signal (Ctrl+C):</p>
+  <ol>
+    <li>Closes the server</li>
+    <li>Logs shutdown message</li>
+    <li>Exits the process</li>
+  </ol>
+
+  <h2>Base Route</h2>
+  <p>The root route (<code>/</code>) returns a welcome message, useful for basic server health checks.</p>
+
+  <h2>Usage Example</h2>
+  <pre><code>// Start the server
+node src/server.js
+
+// In development with hot reloading
+npm run dev</code></pre>
+
+</body>
+</html>

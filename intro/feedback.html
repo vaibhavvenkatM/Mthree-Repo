@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback Controller Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    pre {
+      background-color: #eef;
+      padding: 10px;
+      border-left: 5px solid #3498db;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    ul, ol {
+      margin-left: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Feedback Controller Documentation</h1>
+
+  <div class="section">
+    <h2>Overview</h2>
+    <p>This controller file manages the submission of user feedback to the database.</p>
+  </div>
+
+  <div class="section">
+    <h2>Functions</h2>
+    <h3><code>save_feedback(req, res)</code></h3>
+    <p>An asynchronous controller function that processes and saves user feedback.</p>
+
+    <h4>Parameters</h4>
+    <ul>
+      <li><code>req</code> - Express request object containing the feedback data in the request body</li>
+      <li><code>res</code> - Express response object used to return the operation status</li>
+    </ul>
+
+    <h4>Process Flow</h4>
+    <ol>
+      <li>Extracts the feedback data from the request body</li>
+      <li>Validates that feedback data is present</li>
+      <li>Calls <code>giveFeedback(data.fedbck)</code> to save the feedback to the database</li>
+      <li>Returns a success message with status 201 if successful</li>
+      <li>Returns error information with status 400 or 500 if the operation fails</li>
+    </ol>
+
+    <h4>Response Format</h4>
+    <p><strong>Success (201):</strong></p>
+    <pre><code>{
+  "message": "Feedback submitted successfully!"
+}</code></pre>
+
+    <p><strong>Validation Error (400):</strong></p>
+    <pre><code>{
+  "message": "Please enter feedback"
+}</code></pre>
+
+    <p><strong>Server Error (500):</strong></p>
+    <pre><code>{
+  "message": "Error sending Feedback:",
+  "error": "[error message]"
+}</code></pre>
+
+    <h4>Error Handling</h4>
+    <ul>
+      <li>Checks for missing feedback data and returns a 400 status code</li>
+      <li>Catches any errors during database operations and returns a 500 status code</li>
+      <li>Logs detailed error information to the console</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Dependencies</h2>
+    <p>The controller depends on the following function imported from <code>"../config/db_fun"</code>:</p>
+    <ul>
+      <li><code>giveFeedback</code> - Saves user feedback to the database</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Export</h2>
+    <p>The file exports an object containing the <code>save_feedback</code> function.</p>
+  </div>
+</body>
+</html>
