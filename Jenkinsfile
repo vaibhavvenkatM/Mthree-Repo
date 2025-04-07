@@ -4,6 +4,7 @@ pipeline {
     environment {
         REPO_URL = 'https://github.com/Bhavesh0316/Mthree_Project.git'
         PROJECT_DIR = 'Mthree_Project'
+    
     }
 
     stages {
@@ -38,7 +39,7 @@ pipeline {
             echo 'Deployment and monitoring setup successful!'
         }
         failure {
-            echo 'Something went wrong. Check the logs.'
+            echo 'Something went wrong. App not deployed. Please check the logs.'
         }
     }
 }

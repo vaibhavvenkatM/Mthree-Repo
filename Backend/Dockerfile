@@ -22,5 +22,5 @@ EXPOSE 5000
 # Ensure `node_modules/.bin` is available in PATH for scripts
 ENV PATH /Backend/node_modules/.bin:$PATH
 
-# Run the development server
+# Command to run the development server
 CMD ["npm", "run", "dev"]
