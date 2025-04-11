@@ -46,10 +46,8 @@ This repository is systematically divided into weekly training sessions:
 - **Advanced React & Angular Concepts**  
 - State Management using Redux  
 - **DevOps Best Practices**  
-- **Microservices Architecture** concepts: service decomposition, API communication, containerization, independent deployments.
 
 > 📁 **Note**: React, Angular, and Redux content can be found in the `frontend` folder.  
-> 📁 **Note**: Microservices and DevOps practices are part of `devops` and `architecture` folders (if applicable).
 
 ### **Week 6**
 - **SRE Concepts** – Reliability, Observability, SLIs/SLOs  
