@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic & Question Controller Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #fdfdfd;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-left: 5px solid #3498db;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    ul, ol {
+      margin-left: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    hr {
+      border: 0;
+      height: 1px;
+      background: #ddd;
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📄 Topic & Question Controller Documentation</h1>
+
+  <div class="section">
+    <p>This module is responsible for retrieving topic and question data from the database using the provided topic ID.</p>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🔧 Dependencies</h2>
+    <pre><code>const { getTopicById, getQuestionsById } = require("../config/db_fun");</code></pre>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>📥 Functions</h2>
+
+    <h3><code>fetchTopicData(topicId)</code></h3>
+    <p>Fetches topic and question data based on a given <code>topicId</code>:</p>
+    <ul>
+      <li>Calls <code>getTopicById(topicId)</code> to get topic metadata.</li>
+      <li>Calls <code>getQuestionsById(topicId)</code> to get associated questions.</li>
+      <li>Returns a structured response with <code>success</code>, <code>topic</code>, and <code>questions</code>.</li>
+    </ul>
+
+    <h4>Returns:</h4>
+    <pre><code>{
+  success: true | false,
+  topicId: string,
+  topic: [...],       // Topic metadata
+  questions: [...]    // Array of questions
+}</code></pre>
+    <p>Returns <code>success: false</code> if topic or questions are not found, or if an error occurs.</p>
+
+    <hr>
+
+    <h3><code>getTopicData(req, res)</code></h3>
+    <p>Express route handler (mainly for debugging) to fetch topic data:</p>
+    <ul>
+      <li>Calls <code>fetchTopicData()</code> without a <code>topicId</code>.</li>
+      <li>Responds with HTTP <code>200</code> on success, <code>404</code> on failure.</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🔁 Error Handling</h2>
+    <ul>
+      <li>Logs descriptive error messages to the console.</li>
+      <li>Returns user-friendly messages on failure.</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>📦 Exported Functions</h2>
+    <pre><code>module.exports = {
+  getTopicData,
+  fetchTopicData
+};</code></pre>
+  </div>
+
+</body>
+</html>

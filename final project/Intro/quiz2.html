@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz2 Controller Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #fefefe;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 12px;
+      border-left: 5px solid #3498db;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    ul, ol {
+      margin-left: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    hr {
+      border: 0;
+      height: 1px;
+      background: #ddd;
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Quiz2 Controller Documentation</h1>
+
+  <div class="section">
+    <p>This controller manages the 2 player quiz game logic, handling socket connections, game state, and matchmaking.</p>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🔧 Dependencies</h2>
+    <pre><code>const { v4: uuidv4 } = require("uuid");
+const { saveTwoPlayerSession } = require("../config/db_fun");
+const { fetchTopicData } = require("./quesController");</code></pre>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🔄 Core Components</h2>
+
+    <h3>Global State</h3>
+    <ul>
+      <li><strong>waitingQueue</strong>: Queue for players waiting to be matched</li>
+      <li><strong>activePlayers</strong>: Array of two players currently playing</li>
+      <li><strong>gameInProgress</strong>: Boolean flag for ongoing game</li>
+      <li><strong>blockNewGame</strong>: Prevents rapid successive game starts</li>
+      <li><strong>socketIdToUserId</strong>: Maps socket IDs to user IDs</li>
+      <li><strong>UserIdToSocketId</strong>: Reverse mapping of the above</li>
+      <li><strong>gameScores</strong>: Stores game metadata per <code>gameId</code></li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🔌 Socket.IO</h2>
+
+    <h3><code>setSocketIo(socketIoInstance)</code></h3>
+    <p>Initializes the socket instance used for communication.</p>
+
+    <h3><code>setupGameEndHandler(socket)</code></h3>
+    <p>Listens to two events:</p>
+    <ul>
+      <li><strong>game_end</strong>: Handles score submissions and triggers game conclusion</li>
+      <li><strong>disconnect</strong>: Cleans up state if a user disconnects</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🎮 Game Lifecycle Functions</h2>
+
+    <h3><code>startGame()</code></h3>
+    <p>Starts a game when two players are in the queue:</p>
+    <ul>
+      <li>Fetches random topic data</li>
+      <li>Assigns questions</li>
+      <li>Initializes <code>gameScores</code></li>
+      <li>Emits <code>game_start</code> to both players</li>
+    </ul>
+
+    <h3><code>finishGame(gameId)</code></h3>
+    <p>Called when both players submit scores or the game times out:</p>
+    <ul>
+      <li>Saves game result</li>
+      <li>Cleans up memory and mappings</li>
+      <li>Triggers next game after a 3-second delay</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🗂 Database Interaction</h2>
+
+    <h3><code>saveSession(gameId, player1, player2, player1Score, player2Score)</code></h3>
+    <p>Determines game result and saves it using <code>saveTwoPlayerSession</code>.</p>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>📥 HTTP Endpoints</h2>
+
+    <h3><code>joinQueue(req, res)</code></h3>
+    <ul>
+      <li>Adds the player to the matchmaking queue</li>
+      <li>Prevents multiple concurrent logins</li>
+      <li>Emits <code>queued</code> to the client</li>
+    </ul>
+
+    <h3><code>leaveQueue(req, res)</code></h3>
+    <ul>
+      <li>Removes the player from the queue</li>
+      <li>Rejects if the user is in an active game</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🔍 Utility</h2>
+
+    <h3><code>findGameBySocketId(socketId)</code></h3>
+    <p>Returns the game ID for a player if found in <code>gameScores</code>.</p>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>📦 Exported Functions</h2>
+    <pre><code>module.exports = {
+  setSocketIo,
+  setupGameEndHandler,
+  joinQueue,
+  leaveQueue
+};</code></pre>
+  </div>
+
+</body>
+</html>

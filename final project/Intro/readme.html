@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TEAM 2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7fafc;
+      margin: 0;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #2D3748;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .cards-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      width: 220px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #1A202C;
+    }
+
+    .files a {
+      display: block;
+      font-size: 16px;
+      color: #2D3748;
+      text-decoration: none;
+      margin: 6px 0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+
+    .files a:hover {
+      background-color: #e2e8f0;
+    }
+
+    .file-link.active {
+      font-weight: bold;
+      color: #3B3FCB;
+    }
+
+    #current-file {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    #content-viewer {
+      max-width: 900px;
+      margin-top: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Project Readme Files</h1>
+
+  <div class="cards-container">
+    <!-- FRONTEND -->
+    <div class="card">
+      <h2>FRONTEND</h2>
+      <div class="files">
+        <a href="frontend.html" class="file-link active" onclick="loadContent(event, 'frontend.html', 'readme.md', this)">readme.md</a>
+      </div>
+    </div>
+
+    <!-- BACKEND -->
+    <div class="card">
+      <h2>BACKEND</h2>
+      <div class="files">
+        <a href="authcontroller.html" class="file-link" onclick="loadContent(event, 'authcontroller.html', 'authcontroller.md', this)">authcontroller.md</a>
+        <a href="challenge.html" class="file-link" onclick="loadContent(event, 'challenge.html', 'challenge.md', this)">challenge.md</a>
+        <a href="feedback.html" class="file-link" onclick="loadContent(event, 'feedback.html', 'feedback.md', this)">feedback.md</a>
+        <a href="friends.html" class="file-link" onclick="loadContent(event, 'friends.html', 'friends.md', this)">friends.md</a>
+        <a href="leadeboard.html" class="file-link" onclick="loadContent(event, 'leadeboard.html', 'leadeboard.md', this)">leadeboard.md</a>
+        <a href="profile.html" class="file-link" onclick="loadContent(event, 'profile.html', 'profile.md', this)">profile.md</a>
+        <a href="ques.html" class="file-link" onclick="loadContent(event, 'ques.html', 'ques.md', this)">ques.md</a>
+        <a href="quiz.html" class="file-link" onclick="loadContent(event, 'quiz.html', 'quiz.md', this)">quiz.md</a>
+        <a href="quiz2.html" class="file-link" onclick="loadContent(event, 'quiz2.html', 'quiz2.md', this)">quiz2.md</a>
+      </div>
+    </div>
+
+    <!-- SRE -->
+    <div class="card">
+      <h2>SRE</h2>
+      <div class="files">
+        <a href="sre.html" class="file-link" onclick="loadContent(event, 'sre.html', 'readme.md', this)">readme.md</a>
+        
+      </div>
+    </div>
+  </div>
+
+  <div id="current-file">Showing: readme.md</div>
+  <div id="content-viewer" class="content-viewer"></div>
+
+  <script>
+    function loadContent(event, file, filename, element) {
+      event.preventDefault();
+      fetch(file)
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById('content-viewer').innerHTML = data;
+          document.getElementById('current-file').textContent = 'Showing: ' + filename;
+
+          document.querySelectorAll('.file-link').forEach(link => link.classList.remove('active'));
+          element.classList.add('active');
+        })
+        .catch(err => {
+          document.getElementById('content-viewer').innerHTML = '<p style="color:red;">Failed to load content.</p>';
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      fetch('frontend.html')
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById('content-viewer').innerHTML = data;
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Friend Controller Documentation</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ffffff;
+      color: #2D3748;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #2B6CB0;
+    }
+    code {
+      background: #EDF2F7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    pre {
+      background: #F7FAFC;
+      padding: 10px;
+      border-left: 4px solid #CBD5E0;
+      overflow-x: auto;
+    }
+    section {
+      margin-bottom: 20px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Friend Controller Documentation</h1>
+
+  <section>
+    <h2>Overview</h2>
+    <p>This controller manages user friendship operations such as sending, accepting, and rejecting friend requests, displaying friends, and removing them.</p>
+  </section>
+
+  <section>
+    <h2>Functions</h2>
+
+    <h3><code>Get_Users(req, res)</code></h3>
+    <p>Retrieves users that can be added as friends.</p>
+    <ul>
+      <li>Extracts user ID from the request</li>
+      <li>Calls <code>findUsers(userid)</code></li>
+      <li>Returns potential friends or error</li>
+    </ul>
+
+    <h3><code>Send_FriendReq(req, res)</code></h3>
+    <p>Sends a friend request to another user.</p>
+    <ul>
+      <li>Sender ID from request</li>
+      <li>Target ID from body</li>
+      <li>Calls <code>addFriend(user1id, user2id)</code></li>
+    </ul>
+
+    <h3><code>Show_FriendReq(req, res)</code></h3>
+    <p>Retrieves pending friend requests.</p>
+    <ul>
+      <li>User ID from request</li>
+      <li>Calls <code>showFriendreq(userid)</code></li>
+      <li>Returns friend requests or error</li>
+    </ul>
+
+    <h3><code>Accept_FriendReq(req, res)</code></h3>
+    <p>Accepts a pending friend request.</p>
+    <ul>
+      <li>Recipient ID from request</li>
+      <li>Requester ID from body</li>
+      <li>Calls <code>acceptFriend(user1id, user2id)</code></li>
+    </ul>
+
+    <h3><code>Reject_FriendReq(req, res)</code></h3>
+    <p>Rejects a pending friend request.</p>
+    <ul>
+      <li>Recipient ID from request</li>
+      <li>Requester ID from body</li>
+      <li>Calls <code>rejectFriend(user1id, user2id)</code></li>
+    </ul>
+
+    <h3><code>Fetch_Friends(req, res)</code></h3>
+    <p>Retrieves the list of current friends.</p>
+    <ul>
+      <li>User ID from request</li>
+      <li>Calls <code>displayFriend(userid)</code></li>
+    </ul>
+
+    <h3><code>Remove_Friend(req, res)</code></h3>
+    <p>Removes a user from the friend list.</p>
+    <ul>
+      <li>User ID from request</li>
+      <li>Friend ID from body</li>
+      <li>Calls <code>removeFriend(user1id, user2id)</code></li>
+    </ul>
+
+  </section>
+
+  <section>
+    <h2>Dependencies</h2>
+    <ul>
+      <li><code>findUsers</code> - Get potential friends</li>
+      <li><code>addFriend</code> - Send friend request</li>
+      <li><code>showFriendreq</code> - Get pending requests</li>
+      <li><code>acceptFriend</code> - Accept request</li>
+      <li><code>rejectFriend</code> - Reject request</li>
+      <li><code>displayFriend</code> - List of friends</li>
+      <li><code>removeFriend</code> - Remove a friend</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Error Handling</h2>
+    <ul>
+      <li>All methods use <code>try-catch</code> blocks</li>
+      <li>Returns HTTP 500 with descriptive message on error</li>
+      <li>Logs include relevant user IDs for tracing</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Export</h2>
+    <p>This controller exports all seven friend management functions listed above.</p>
+  </section>
+
+</body>
+</html>

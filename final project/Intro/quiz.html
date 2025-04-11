@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Single Player Game Controller Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #fefefe;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 12px;
+      border-left: 5px solid #3498db;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    ul, ol {
+      margin-left: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    hr {
+      border: 0;
+      height: 1px;
+      background: #ddd;
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Single Player Game Controller Documentation</h1>
+
+  <div class="section">
+    <p>This controller handles the single-player quiz game logic, including game session management, question assignment, and score saving.</p>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🔧 Dependencies</h2>
+    <pre><code>const { v4: uuidv4 } = require("uuid");
+const { saveSinglePlayerSession } = require("../config/db_fun");
+const { fetchTopicData } = require("./quesController");</code></pre>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🧠 Global State</h2>
+    <h3><code>userGameMap</code></h3>
+    <p>Stores ongoing game session data for each user:</p>
+    <ul>
+      <li><strong>gameId</strong>: Unique ID for the session</li>
+      <li><strong>score</strong>: Player's score</li>
+      <li><strong>timer</strong>: Timeout object for automatic game end</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>💾 Database Interaction</h2>
+    <h3><code>saveSession(gameId, playerId, playerScore)</code></h3>
+    <p>Saves the single-player game result into the database using <code>saveSinglePlayerSession</code>.</p>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>🎮 Game Logic</h2>
+
+    <h3><code>handleGameEnd(userId, gameId)</code></h3>
+    <p>Ends a game session:</p>
+    <ul>
+      <li>Validates the game</li>
+      <li>Saves the session</li>
+      <li>Cleans up from <code>userGameMap</code></li>
+    </ul>
+
+    <h3><code>startGame(req, res)</code></h3>
+    <p>Starts a new game:</p>
+    <ul>
+      <li>Generates a game ID</li>
+      <li>Picks a random topic</li>
+      <li>Fetches questions</li>
+      <li>Stores session in <code>userGameMap</code> with a 75-second timer</li>
+      <li>Responds with game data</li>
+    </ul>
+
+    <h3><code>endGame(req, res)</code></h3>
+    <p>Manually ends a game session:</p>
+    <ul>
+      <li>Validates the session</li>
+      <li>Updates the score</li>
+      <li>Clears timeout and ends game</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>⚙️ HTTP Endpoints</h2>
+    <ul>
+      <li><strong>POST</strong> <code>/startGame</code> — Starts a new game for the user.</li>
+      <li><strong>POST</strong> <code>/endGame</code> — Ends an ongoing game and saves the score.</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>📦 Exported Functions</h2>
+    <pre><code>module.exports = {
+  startGame,
+  endGame
+};</code></pre>
+  </div>
+
+</body>
+</html>

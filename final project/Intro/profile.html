@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile Controller Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    pre {
+      background-color: #eef;
+      padding: 10px;
+      border-left: 5px solid #3498db;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    ul, ol {
+      margin-left: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Profile Controller Documentation</h1>
+
+  <div class="section">
+    <h2>Overview</h2>
+    <p>The <code>profileController.js</code> file contains functionality for retrieving user profile data. It exports a single controller function that aggregates various profile-related information.</p>
+  </div>
+
+  <div class="section">
+    <h2>Functions</h2>
+    <h3><code>getProfile(req, res)</code></h3>
+    <p>An asynchronous controller function that fetches and returns profile data for the authenticated user.</p>
+
+    <h4>Parameters</h4>
+    <ul>
+      <li><code>req</code> - Express request object containing the authenticated user information</li>
+      <li><code>res</code> - Express response object used to return the data or error response</li>
+    </ul>
+
+    <h4>Process Flow</h4>
+    <ol>
+      <li>Extracts the user ID from the request object</li>
+      <li>Initializes a data structure to hold profile information</li>
+      <li>Uses <code>Promise.all</code> to concurrently fetch different profile data components:
+        <ul>
+          <li>Pie chart data (<code>PiechartResult</code>)</li>
+          <li>Match count data (<code>CountMatch</code>)</li>
+          <li>Basic user information (<code>basicinfo</code>)</li>
+          <li>Daily streak information (<code>dailystreak</code>)</li>
+          <li>Longest streak information (<code>longeststreak</code>)</li>
+        </ul>
+      </li>
+      <li>Returns all collected data in a JSON response with status 200 if successful</li>
+      <li>Returns appropriate error information with status 500 if any data fetch fails</li>
+    </ol>
+
+    <h4>Response Format</h4>
+    <pre><code>{
+  "PiechartResult_data": [],
+  "CountMatch_data": [],
+  "basicinfo_data": [],
+  "dailystreak_data": 1,
+  "longeststreak_data": 1
+}</code></pre>
+
+    <h4>Error Handling</h4>
+    <ul>
+      <li>Each promise is wrapped with individual error handlers to identify which function failed</li>
+      <li>Errors include the source of the failure and the original error message</li>
+      <li>All errors are logged to the console with user ID context</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Dependencies</h2>
+    <p>The controller depends on the following functions imported from <code>"../config/profile_fun"</code>:</p>
+    <ul>
+      <li><code>PiechartResult</code> - Retrieves data for generating pie charts</li>
+      <li><code>basicinfo</code> - Retrieves basic user information</li>
+      <li><code>CountMatch</code> - Retrieves match counting information</li>
+      <li><code>dailystreak</code> - Retrieves information about the user's current streak</li>
+      <li><code>longeststreak</code> - Retrieves information about the user's longest streak</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Export</h2>
+    <p>The file exports an object containing the <code>getProfile</code> function.</p>
+  </div>
+</body>
+</html>
+    

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Authentication Controller Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+    h1, h2, h3, h4 {
+      color: #2c3e50;
+    }
+    ul, ol {
+      margin-left: 20px;
+    }
+    code {
+      background-color: #eef;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-left: 4px solid #ccc;
+      overflow-x: auto;
+    }
+    blockquote {
+      border-left: 4px solid #aaa;
+      background: #f0f0f0;
+      padding: 10px;
+      color: #555;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Authentication Controller</h1>
+  <p>A Node.js authentication module that handles user signup and login operations using JWT (JSON Web Token) for authentication.</p>
+
+  <h2>Dependencies</h2>
+  <ul>
+    <li><strong>bcryptjs</strong>: Password hashing library</li>
+    <li><strong>jsonwebtoken</strong>: JWT implementation for token generation</li>
+    <li><strong>dotenv</strong>: Environment variable management</li>
+    <li>Database functions from <code>../config/db_fun.js</code></li>
+  </ul>
+
+  <h2>Environment Setup</h2>
+  <p>The controller uses a JWT secret key from environment variables:</p>
+  <pre><code>const SECRET_KEY = process.env.JWT_SECRET || "needs_to_be_changed";</code></pre>
+
+  <blockquote><strong>Important:</strong> Ensure you set a secure <code>JWT_SECRET</code> in your <code>.env</code> file in production.</blockquote>
+
+  <h2>Functions</h2>
+  
+  <h3>Signup</h3>
+  <p>Registers a new user in the system.</p>
+  <pre><code>signup(req, res)</code></pre>
+
+  <h4>Request Body Parameters:</h4>
+  <ul>
+    <li><strong>username</strong>: User's unique identifier</li>
+    <li><strong>email</strong>: User's email address</li>
+    <li><strong>password</strong>: Password for authentication</li>
+  </ul>
+
+  <h4>Process:</h4>
+  <ol>
+    <li>Validates all required fields are present</li>
+    <li>Checks if username already exists in the database</li>
+    <li>Hashes the password using bcrypt (10 salt rounds)</li>
+    <li>Creates new user record in the database</li>
+    <li>Returns success message and user data</li>
+  </ol>
+
+  <h4>Response:</h4>
+  <ul>
+    <li><strong>201</strong>: User registered successfully</li>
+    <li><strong>400</strong>: Missing fields or user already exists</li>
+    <li><strong>500</strong>: Server error</li>
+  </ul>
+
+  <h3>Login</h3>
+  <p>Authenticates a user and provides a JWT token.</p>
+  <pre><code>login(req, res)</code></pre>
+
+  <h4>Request Body Parameters:</h4>
+  <ul>
+    <li><strong>username</strong>: User's identifier</li>
+    <li><strong>password</strong>: User's password</li>
+  </ul>
+
+  <h4>Process:</h4>
+  <ol>
+    <li>Validates all required fields are present</li>
+    <li>Checks if the user exists in the database</li>
+    <li>Compares provided password with stored hash</li>
+    <li>Generates a JWT token with user ID and username</li>
+    <li>Updates the user's last login date</li>
+    <li>Returns token and user information</li>
+  </ol>
+
+  <h4>Response:</h4>
+  <ul>
+    <li><strong>200</strong>: Login successful (includes token)</li>
+    <li><strong>400</strong>: Missing fields, user not found, or invalid credentials</li>
+    <li><strong>500</strong>: Server error</li>
+  </ul>
+
+  <h2>Security Considerations</h2>
+  <ul>
+    <li>Passwords are hashed using bcrypt with 10 rounds of salt</li>
+    <li>JWT tokens expire after 1 hour</li>
+    <li>Authentication errors return generic messages to prevent username enumeration</li>
+  </ul>
+</body>
+</html>
